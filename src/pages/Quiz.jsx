@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
 import { InlineMath } from "react-katex";
+import { Progress } from "@base-ui/react/progress";
+import { Radio } from "@base-ui/react/radio";
+import { RadioGroup } from "@base-ui/react/radio-group";
 import { QUIZ_BANK } from "../data/quizBank.js";
 import { shuffle, sample } from "../utils/shuffle.js";
 
@@ -30,6 +33,34 @@ function buildRound() {
   });
 }
 
+// Classes do card de cada alternativa, de acordo com o estado (selecionada,
+// correta, incorreta, ou neutra) — aplicadas via a render prop do Radio.Root.
+function optionClass({ checked, disabled }, isCorrect) {
+  if (disabled) {
+    if (isCorrect) {
+      return "border-green-500 bg-green-50 dark:bg-green-500/10";
+    }
+    if (checked) {
+      return "border-red-500 bg-red-50 dark:bg-red-500/10";
+    }
+    return "border-neutral-200 dark:border-neutral-800";
+  }
+  if (checked) {
+    return "border-neutral-900 dark:border-neutral-100";
+  }
+  return "border-neutral-200 hover:border-blue-400 dark:border-neutral-800";
+}
+
+function letterClass({ checked, disabled }, isCorrect) {
+  if (disabled) {
+    if (isCorrect) return "border-green-500 bg-green-500 text-white";
+    if (checked) return "border-red-500 bg-red-500 text-white";
+    return "border-neutral-200 text-neutral-400 dark:border-neutral-800";
+  }
+  if (checked) return "border-neutral-900 text-neutral-900 dark:border-neutral-100 dark:text-neutral-100";
+  return "border-neutral-300 text-neutral-500 dark:border-neutral-700";
+}
+
 export default function Quiz() {
   const [round, setRound] = useState(() => buildRound());
   const [step, setStep] = useState(0);
@@ -41,11 +72,6 @@ export default function Quiz() {
   const question = round[step];
   const total = round.length;
   const score = useMemo(() => log.filter((l) => l.correct).length, [log]);
-
-  function handleSelect(index) {
-    if (answered) return;
-    setSelected(index);
-  }
 
   function handleConfirm() {
     if (selected === null) return;
@@ -133,9 +159,17 @@ export default function Quiz() {
         </span>
         <span>{question.topico}</span>
       </div>
-      <div className="progress-bar">
-        <span style={{ width: `${((step + (answered ? 1 : 0)) / total) * 100}%` }} />
-      </div>
+
+      <Progress.Root
+        value={step + (answered ? 1 : 0)}
+        min={0}
+        max={total}
+        className="mb-6 block"
+      >
+        <Progress.Track className="block h-1.5 overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800">
+          <Progress.Indicator className="block h-full rounded-full bg-blue-600 transition-[width] duration-300 ease-out dark:bg-blue-500" />
+        </Progress.Track>
+      </Progress.Root>
 
       <div className="quiz-card">
         <p className="quiz-topic">{question.topico}</p>
@@ -143,31 +177,47 @@ export default function Quiz() {
           <RichText text={question.enunciado} />
         </p>
 
-        <ul className="quiz-options">
-          {question.opcoesEmbaralhadas.map((opt, i) => {
-            let cls = "quiz-option";
-            if (answered) {
-              cls += " disabled";
-              if (opt.correta) cls += " correct";
-              else if (i === selected) cls += " incorrect";
-            } else if (i === selected) {
-              cls += " selected";
-            }
-            return (
-              <li key={i}>
-                <button className={cls} onClick={() => handleSelect(i)} disabled={answered}>
-                  <span className="opt-letter">{LETTERS[i]}</span>
-                  <span>
-                    <RichText text={opt.texto} />
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <RadioGroup
+          value={selected}
+          onValueChange={(value) => {
+            if (!answered) setSelected(value);
+          }}
+          className="grid list-none gap-2.5 p-0"
+        >
+          {question.opcoesEmbaralhadas.map((opt, i) => (
+            <label key={i} className="block">
+              <Radio.Root
+                value={i}
+                disabled={answered}
+                nativeButton
+                render={(props, state) => (
+                  <button
+                    {...props}
+                    type="button"
+                    className={`flex w-full items-start gap-3 rounded-lg border-[1.5px] px-4 py-3 text-left transition-colors ${
+                      answered ? "cursor-default" : "cursor-pointer"
+                    } ${optionClass(state, !!opt.correta)}`}
+                  >
+                    <span
+                      className={`flex h-6.5 w-6.5 flex-none items-center justify-center rounded-full border-[1.5px] text-[0.82rem] font-semibold ${letterClass(
+                        state,
+                        !!opt.correta
+                      )}`}
+                    >
+                      {LETTERS[i]}
+                    </span>
+                    <span className="pt-0.5 text-neutral-900 dark:text-neutral-100">
+                      <RichText text={opt.texto} />
+                    </span>
+                  </button>
+                )}
+              />
+            </label>
+          ))}
+        </RadioGroup>
 
         {answered && (
-          <div className={`quiz-feedback show ${log[log.length - 1]?.correct ? "good" : "bad"}`}>
+          <div className={`quiz-feedback ${log[log.length - 1]?.correct ? "good" : "bad"}`}>
             <strong>{log[log.length - 1]?.correct ? "Correto! " : "Não foi dessa vez. "}</strong>
             <RichText text={question.explicacao} />
           </div>

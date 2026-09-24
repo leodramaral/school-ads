@@ -22,9 +22,9 @@ export default function App() {
     <>
       <ScrollToTop />
       <Header onToggleSidebar={() => setSidebarOpen((v) => !v)} sidebarOpen={sidebarOpen} />
-      <div className="layout">
+      <div className="flex flex-col items-stretch md:flex-row md:items-start">
         <Sidebar open={sidebarOpen} onNavigate={() => setSidebarOpen(false)} />
-        <main>
+        <main className="min-w-0 flex-1 px-5 py-8 pb-20 md:max-w-3xl md:px-10 md:py-10">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/matrizes" element={<Matrizes />} />
