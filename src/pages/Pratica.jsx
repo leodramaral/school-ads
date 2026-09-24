@@ -53,6 +53,12 @@ export default function Pratica() {
 
       <div className="callout callout--example">
         <h4>Resposta modelo</h4>
+        <p className="mt-0">
+          O raciocínio tem três partes: (1) calcular o determinante <em>antes</em> da operação, para
+          ter um valor de referência; (2) aplicar a operação pedida e montar a matriz nova; (3)
+          calcular o determinante <em>depois</em> e comparar com o de referência. Seguindo essa ordem,
+          nenhuma etapa fica solta.
+        </p>
         <ol className="steps">
           <li>
             <strong>Enuncie o teorema que está sendo usado.</strong> O Teorema de Jacobi garante que o
@@ -60,34 +66,38 @@ export default function Pratica() {
             combinação linear dos elementos correspondentes de uma fila paralela.
           </li>
           <li>
-            <strong>Calcule o determinante original</strong> (por Sarrus, já que é ordem 3):
+            <strong>Calcule o determinante original</strong>, <M math="\det A" /> — esse é o valor que
+            precisamos "bater" no final (por Sarrus, já que é ordem 3):
             <MathBlock math="\text{Positivos: } 1\cdot1\cdot5 + 0\cdot1\cdot2 + 2\cdot3\cdot0 = 5+0+0=5" />
             <MathBlock math="\text{Negativos: } 2\cdot1\cdot2 + 1\cdot1\cdot0 + 0\cdot3\cdot5 = 4+0+0=4" />
             <MathBlock math="\det A = 5 - 4 = 1" />
           </li>
           <li>
-            <strong>Aplique a operação pedida</strong>, <M math="L_3 \rightarrow L_3 + (-2)L_1" />.
-            Primeiro calcule <M math="(-2)L_1" /> por completo:
-            <MathBlock math="(-2)L_1 = (-2)\cdot(1,\ 0,\ 2) = (-2,\ 0,\ -4)" />
+            <strong>Aplique a operação pedida</strong>, <M math="L_3 \rightarrow L_3 + (-2)L_1" />, uma
+            posição de cada vez: em cada coluna, some ao elemento antigo de <M math="L_3" /> o valor{" "}
+            <M math="(-2)" /> vezes o elemento correspondente de <M math="L_1" />:
+            <MathBlock math="\text{coluna 1: } 2+(-2)(1)=0 \qquad \text{coluna 2: } 0+(-2)(0)=0 \qquad \text{coluna 3: } 5+(-2)(2)=1" />
+            <p className="mt-0">
+              Ou seja, a nova linha 3 é <M math="L_3^{\text{novo}} = (0,\ 0,\ 1)" />.
+            </p>
           </li>
           <li>
-            <strong>Some, elemento a elemento</strong>, esse resultado à linha <M math="L_3 = (2,\ 0,\ 5)" />:
-            <MathBlock math="L_3^{\text{novo}} = (2+(-2),\ 0+0,\ 5+(-4)) = (0,\ 0,\ 1)" />
-          </li>
-          <li>
-            <strong>Monte a nova matriz</strong> (linhas 1 e 2 continuam iguais):
+            <strong>Monte a nova matriz</strong>, trocando só a linha 3 (as linhas 1 e 2 continuam
+            iguais às da matriz original):
             <MathBlock math="A' = \begin{vmatrix} 1 & 0 & 2 \\ 3 & 1 & 1 \\ 0 & 0 & 1 \end{vmatrix}" />
           </li>
           <li>
-            <strong>Calcule o novo determinante</strong> — como a 3ª linha ficou quase toda zero, vale a
-            pena usar Laplace nela em vez de Sarrus:
-            <MathBlock math="\det A' = 0\cdot A_{31} + 0\cdot A_{32} + 1\cdot(-1)^{3+3}\begin{vmatrix}1&0\\3&1\end{vmatrix} = 1\cdot(1\cdot1 - 0\cdot3) = 1\cdot 1 = 1" />
+            <strong>Calcule o novo determinante</strong>, <M math="\det A'" />, pelo mesmo método usado
+            no passo 2 — assim os dois valores ficam fáceis de comparar (por Sarrus):
+            <MathBlock math="\text{Positivos: } 1\cdot1\cdot1 + 0\cdot1\cdot0 + 2\cdot3\cdot0 = 1+0+0=1" />
+            <MathBlock math="\text{Negativos: } 2\cdot1\cdot0 + 1\cdot1\cdot0 + 0\cdot3\cdot1 = 0+0+0=0" />
+            <MathBlock math="\det A' = 1 - 0 = 1" />
           </li>
           <li>
-            <strong>Conclua comparando os dois valores:</strong> <M math="\det A = 1" /> e{" "}
-            <M math="\det A' = 1" />. Os determinantes são iguais, confirmando o Teorema de Jacobi — e
-            de quebra, a nova matriz ficou muito mais fácil de calcular por ter dois zeros na última
-            linha.
+            <strong>Conclua comparando os dois valores</strong> calculados nos passos 2 e 5:{" "}
+            <M math="\det A = 1" /> e <M math="\det A' = 1" />. São iguais, confirmando o Teorema de
+            Jacobi — e de quebra, a nova matriz ficou muito mais fácil de recalcular por ter dois zeros
+            na última linha.
           </li>
         </ol>
       </div>
