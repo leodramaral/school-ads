@@ -33,7 +33,8 @@ export default function Matrizes() {
         Uma <strong>matriz</strong> é simplesmente uma tabela de números organizada em linhas
         (horizontais) e colunas (verticais). Se a tabela tem <M math="m" /> linhas e <M math="n" />{" "}
         colunas, dizemos que ela é uma matriz do tipo (ou <strong>ordem</strong>) <M math="m \times n" />{" "}
-        — sempre "linhas vezes colunas", nessa ordem.
+        — sempre "linhas vezes colunas", nessa ordem. Ao todo, uma matriz <M math="m \times n" /> tem{" "}
+        <M math="m \cdot n" /> elementos — um para cada combinação possível de linha e coluna.
       </p>
 
       <MathBlock math="A = \begin{bmatrix} 1 & -2 & 3 \\ 0 & 4 & 2 \end{bmatrix}" />

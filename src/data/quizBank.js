@@ -164,6 +164,117 @@ export const QUIZ_BANK = [
     explicacao:
       "Igualdade de matrizes é definida posição a posição: $A=B \\iff a_{ij}=b_{ij}$ para todo $i,j$. Não basta ter o mesmo determinante ou a mesma soma.",
   },
+  {
+    id: "m13",
+    topico: "Matrizes",
+    enunciado: "Uma matriz do tipo $1 \\times 4$ (com uma única linha) é chamada de:",
+    opcoes: [
+      { texto: "Matriz linha", correta: true },
+      { texto: "Matriz coluna" },
+      { texto: "Matriz quadrada" },
+      { texto: "Matriz nula" },
+    ],
+    explicacao:
+      "Matriz linha é toda matriz do tipo $1 \\times n$ (uma única linha). Matriz coluna é o caso oposto, do tipo $n \\times 1$ (uma única coluna).",
+  },
+  {
+    id: "m14",
+    topico: "Matrizes",
+    enunciado:
+      "Na matriz $A_3 = \\begin{bmatrix} -1 & 2 & 5 \\\\ 3 & 0 & -3 \\\\ 5 & 7 & -6 \\end{bmatrix}$, quais são os elementos da diagonal secundária?",
+    opcoes: [
+      { texto: "$5, \\ 0, \\ 5$", correta: true },
+      { texto: "$-1, \\ 0, \\ -6$" },
+      { texto: "$2, \\ 0, \\ 7$" },
+      { texto: "$5, \\ 7, \\ -6$" },
+    ],
+    explicacao:
+      "A diagonal secundária é formada pelos elementos em que $i+j=n+1=4$: $a_{13}=5$, $a_{22}=0$ e $a_{31}=5$. Cuidado para não confundir com a diagonal principal ($i=j$), que aqui é $-1, 0, -6$.",
+  },
+  {
+    id: "m15",
+    topico: "Matrizes",
+    enunciado: "Uma matriz em que todos os elementos são iguais a zero é chamada de:",
+    opcoes: [
+      { texto: "Matriz nula", correta: true },
+      { texto: "Matriz identidade" },
+      { texto: "Matriz diagonal" },
+      { texto: "Matriz oposta" },
+    ],
+    explicacao:
+      "A matriz nula, indicada por $O_{m\\times n}$, é aquela em que absolutamente todos os elementos valem zero — diferente da matriz diagonal, que só exige zeros fora da diagonal principal.",
+  },
+  {
+    id: "m16",
+    topico: "Matrizes",
+    enunciado: "Uma matriz diagonal se diferencia da matriz identidade porque:",
+    opcoes: [
+      {
+        texto:
+          "Na matriz diagonal, os elementos da diagonal principal podem ser quaisquer valores diferentes de zero — não precisam ser 1",
+        correta: true,
+      },
+      { texto: "Na matriz diagonal, todos os elementos (inclusive a diagonal) são iguais a zero" },
+      { texto: "A matriz diagonal nunca é quadrada" },
+      { texto: "A matriz identidade não tem diagonal principal" },
+    ],
+    explicacao:
+      "A matriz diagonal exige apenas que os elementos fora da diagonal principal sejam nulos; os da diagonal podem ser quaisquer números. A identidade é um caso particular de matriz diagonal em que, além disso, esses elementos valem exatamente 1.",
+  },
+  {
+    id: "m17",
+    topico: "Matrizes",
+    enunciado: "A subtração $A - B$ é definida, na prática, como:",
+    opcoes: [
+      { texto: "$A + (-B)$, a soma de $A$ com a oposta de $B$", correta: true },
+      { texto: "$-A + B$" },
+      { texto: "A soma dos valores absolutos dos elementos de $A$ e $B$" },
+      { texto: "$B + (-A)$" },
+    ],
+    explicacao:
+      "Por definição, $A - B = A + (-B)$: primeiro troca-se o sinal de todos os elementos de $B$, depois soma-se normalmente com $A$. Trocar a ordem, como em $B + (-A)$, inverteria o sinal do resultado.",
+  },
+  {
+    id: "m18",
+    topico: "Matrizes",
+    enunciado:
+      "Sendo $A = \\begin{bmatrix} -2 & 5 \\\\ 3 & -1 \\end{bmatrix}$ e $B = \\begin{bmatrix} 4 & -3 \\\\ -2 & 6 \\end{bmatrix}$, a soma $A + B$ é:",
+    opcoes: [
+      { texto: "$\\begin{bmatrix} 2 & 2 \\\\ 1 & 5 \\end{bmatrix}$", correta: true },
+      { texto: "$\\begin{bmatrix} 2 & 2 \\\\ 1 & -7 \\end{bmatrix}$" },
+      { texto: "$\\begin{bmatrix} -6 & 2 \\\\ 1 & 5 \\end{bmatrix}$" },
+      { texto: "$\\begin{bmatrix} 2 & 8 \\\\ 1 & 5 \\end{bmatrix}$" },
+    ],
+    explicacao:
+      "Some posição por posição: $-2+4=2$, $5+(-3)=2$, $3+(-2)=1$, $-1+6=5$. O erro mais comum é errar o sinal em algum desses pares — refaça cada soma isoladamente.",
+  },
+  {
+    id: "m19",
+    topico: "Matrizes",
+    enunciado:
+      "Multiplicando a matriz $A = \\begin{bmatrix} 5 & -2 \\\\ -3 & 4 \\end{bmatrix}$ pelo número real $-3$, obtemos:",
+    opcoes: [
+      { texto: "$\\begin{bmatrix} -15 & 6 \\\\ 9 & -12 \\end{bmatrix}$", correta: true },
+      { texto: "$\\begin{bmatrix} 15 & -6 \\\\ -9 & 12 \\end{bmatrix}$" },
+      { texto: "$\\begin{bmatrix} -15 & -6 \\\\ 9 & -12 \\end{bmatrix}$" },
+      { texto: "$\\begin{bmatrix} -15 & 6 \\\\ 9 & 12 \\end{bmatrix}$" },
+    ],
+    explicacao:
+      "Multiplique cada elemento por $-3$, respeitando o jogo de sinal: $5\\cdot(-3)=-15$, $(-2)\\cdot(-3)=6$ (negativo vezes negativo é positivo), $(-3)\\cdot(-3)=9$, $4\\cdot(-3)=-12$.",
+  },
+  {
+    id: "m20",
+    topico: "Matrizes",
+    enunciado: "Uma matriz do tipo $4 \\times 3$ tem, ao todo, quantos elementos?",
+    opcoes: [
+      { texto: "$12$", correta: true },
+      { texto: "$7$" },
+      { texto: "$4$" },
+      { texto: "$3$" },
+    ],
+    explicacao:
+      "Uma matriz $m\\times n$ tem $m\\cdot n$ elementos, um para cada combinação de linha e coluna. Aqui, $4 \\times 3 = 12$ — não confunda com a soma $4+3=7$.",
+  },
 
   // ---------------- DETERMINANTES ----------------
   {
@@ -327,5 +438,161 @@ export const QUIZ_BANK = [
     ],
     explicacao:
       "$adj\\,A = (\\overline{A})^{t}$, onde $\\overline{A}$ é a matriz formada pelos cofatores de cada elemento de $A$. É essa matriz adjunta que entra na fórmula da inversa.",
+  },
+  {
+    id: "d13",
+    topico: "Determinantes",
+    enunciado: "O determinante é definido apenas para matrizes:",
+    opcoes: [
+      { texto: "Quadradas (mesmo número de linhas e colunas)", correta: true },
+      { texto: "De qualquer tipo $m \\times n$" },
+      { texto: "Apenas do tipo $2\\times 2$" },
+      { texto: "Apenas triangulares" },
+    ],
+    explicacao:
+      "Determinante é um número associado a uma matriz quadrada. Matrizes retangulares (com número diferente de linhas e colunas) simplesmente não têm determinante.",
+  },
+  {
+    id: "d14",
+    topico: "Determinantes",
+    enunciado:
+      "O menor complementar $MC_{ij}$ de um elemento $a_{ij}$ de uma matriz quadrada é obtido:",
+    opcoes: [
+      { texto: "Apagando a linha $i$ e a coluna $j$, e calculando o determinante que sobra", correta: true },
+      { texto: "Multiplicando a linha $i$ pela coluna $j$" },
+      { texto: "Somando todos os elementos da linha $i$" },
+      { texto: "Elevando o elemento $a_{ij}$ ao quadrado" },
+    ],
+    explicacao:
+      "$MC_{ij}$ é o determinante de ordem $n-1$ que resulta de apagar a linha $i$ e a coluna $j$ da matriz original. É a partir dele que se calcula o cofator, aplicando o sinal $(-1)^{i+j}$.",
+  },
+  {
+    id: "d15",
+    topico: "Determinantes",
+    enunciado: "Se duas linhas de uma matriz quadrada são exatamente iguais, o determinante:",
+    opcoes: [
+      { texto: "É igual a zero", correta: true },
+      { texto: "É igual a 1" },
+      { texto: "É igual ao dobro de uma das linhas" },
+      { texto: "Não pode ser calculado" },
+    ],
+    explicacao:
+      "Propriedade P2: se duas filas paralelas (linhas ou colunas) são iguais, o determinante da matriz é nulo.",
+  },
+  {
+    id: "d16",
+    topico: "Determinantes",
+    enunciado:
+      "Se os elementos de uma fila de uma matriz são combinação linear dos elementos correspondentes de outras filas paralelas, o determinante:",
+    opcoes: [
+      { texto: "É igual a zero", correta: true },
+      { texto: "É igual à soma dessas filas" },
+      { texto: "Muda de sinal" },
+      { texto: "Fica multiplicado por 2" },
+    ],
+    explicacao:
+      "Propriedade P4: quando uma fila pode ser escrita como combinação linear de filas paralelas, o determinante é nulo — é um caso mais geral das propriedades P2 (filas iguais) e P3 (filas proporcionais).",
+  },
+  {
+    id: "d17",
+    topico: "Determinantes",
+    enunciado: "Qual afirmação é sempre verdadeira, para qualquer matriz quadrada $A$?",
+    opcoes: [
+      { texto: "$\\det A = \\det A^{t}$", correta: true },
+      { texto: "$\\det A = -\\det A^{t}$" },
+      { texto: "$\\det A = \\det(2A)$" },
+      { texto: "$\\det A = \\det(A^{-1})$" },
+    ],
+    explicacao:
+      "Propriedade P6: o determinante de uma matriz e o de sua transposta são sempre iguais. As outras alternativas só valem em casos particulares, não em geral.",
+  },
+  {
+    id: "d18",
+    topico: "Determinantes",
+    enunciado:
+      "Quando os elementos acima (ou abaixo) da diagonal secundária de uma matriz quadrada são todos nulos, o determinante é igual a:",
+    opcoes: [
+      {
+        texto: "O produto dos elementos dessa diagonal, multiplicado por $(-1)^{n(n-1)/2}$",
+        correta: true,
+      },
+      { texto: "Apenas o produto dos elementos dessa diagonal, sem nenhum fator de sinal" },
+      { texto: "A soma dos elementos dessa diagonal" },
+      { texto: "Sempre zero" },
+    ],
+    explicacao:
+      "Propriedade P10. Não confunda com a P9 (diagonal principal): quando os zeros estão em torno da diagonal secundária, é preciso multiplicar o produto pelo fator extra $(-1)^{n(n-1)/2}$.",
+  },
+  {
+    id: "d19",
+    topico: "Determinantes",
+    enunciado:
+      "Se $A$ é uma matriz quadrada de ordem 3 e $\\det A = 5$, qual é o determinante de $2A$ (a matriz inteira multiplicada por 2)?",
+    opcoes: [
+      { texto: "$40$", correta: true },
+      { texto: "$10$" },
+      { texto: "$5$" },
+      { texto: "$15$" },
+    ],
+    explicacao:
+      "Propriedade P12: $\\det(kA) = k^{n}\\cdot\\det A$, com $n$ igual à ordem da matriz. Aqui, $\\det(2A) = 2^{3}\\cdot 5 = 8\\cdot 5 = 40$. O valor $10$ seria o resultado de multiplicar só uma fila por 2 (propriedade P7), não a matriz inteira.",
+  },
+  {
+    id: "d20",
+    topico: "Determinantes",
+    enunciado:
+      "Para duas matrizes quadradas $A$ e $B$ de mesma ordem, sobre $\\det(A+B)$ é correto afirmar que:",
+    opcoes: [
+      { texto: "Em geral, $\\det(A+B) \\neq \\det A + \\det B$", correta: true },
+      { texto: "Sempre vale $\\det(A+B) = \\det A + \\det B$" },
+      { texto: "$\\det(A+B)$ é sempre o dobro de $\\det A$" },
+      { texto: "$\\det(A+B)$ é sempre igual a zero" },
+    ],
+    explicacao:
+      "Propriedade P13: diferente da soma de números reais, o determinante da soma não é igual à soma dos determinantes, salvo em casos específicos.",
+  },
+  {
+    id: "d21",
+    topico: "Determinantes",
+    enunciado: "A Regra de Chió é uma técnica usada para:",
+    opcoes: [
+      {
+        texto:
+          "Reduzir o cálculo de um determinante de ordem $n$ para um de ordem $n-1$, com o mesmo valor (exige um elemento igual a 1)",
+        correta: true,
+      },
+      { texto: "Calcular o determinante apenas de matrizes $2\\times 2$" },
+      { texto: "Encontrar a matriz transposta de forma mais rápida" },
+      { texto: "Substituir o Teorema de Laplace em qualquer situação" },
+    ],
+    explicacao:
+      "A Regra de Chió parte de um elemento igual a 1, apaga a linha e a coluna dele, ajusta os elementos restantes e aplica um fator de sinal $(-1)^{i+j}$ — reduzindo a ordem do determinante em 1, sem mudar seu valor.",
+  },
+  {
+    id: "d22",
+    topico: "Determinantes",
+    enunciado:
+      "Calcule, pela Regra de Sarrus, o determinante de $\\begin{bmatrix} 1 & 2 & 0 \\\\ 3 & -1 & 2 \\\\ 0 & 1 & 4 \\end{bmatrix}$.",
+    opcoes: [
+      { texto: "$-30$", correta: true },
+      { texto: "$30$" },
+      { texto: "$-4$" },
+      { texto: "$26$" },
+    ],
+    explicacao:
+      "Diagonais positivas: $1(-1)(4) + 2(2)(0) + 0(3)(1) = -4$. Diagonais negativas: $0(-1)(0) + 1(2)(1) + 2(3)(4) = 26$. Determinante: $-4 - 26 = -30$. Os valores $-4$ e $26$ são as somas parciais — um erro comum é esquecer de subtrair uma da outra.",
+  },
+  {
+    id: "d23",
+    topico: "Determinantes",
+    enunciado: "A inversa de $A = \\begin{bmatrix} 3 & 1 \\\\ 2 & 1 \\end{bmatrix}$ é:",
+    opcoes: [
+      { texto: "$\\begin{bmatrix} 1 & -1 \\\\ -2 & 3 \\end{bmatrix}$", correta: true },
+      { texto: "$\\begin{bmatrix} 1 & 1 \\\\ 2 & 3 \\end{bmatrix}$" },
+      { texto: "$\\begin{bmatrix} 1 & -2 \\\\ -1 & 3 \\end{bmatrix}$" },
+      { texto: "$\\begin{bmatrix} 3 & -1 \\\\ -2 & 1 \\end{bmatrix}$" },
+    ],
+    explicacao:
+      "Primeiro, $\\det A = 3\\cdot 1 - 1\\cdot 2 = 1$. Pelo atalho $2\\times 2$: troque a diagonal principal de posição, troque o sinal da diagonal secundária, e divida por $\\det A$: $A^{-1} = \\tfrac{1}{1}\\begin{bmatrix} 1 & -1 \\\\ -2 & 3 \\end{bmatrix}$.",
   },
 ];
