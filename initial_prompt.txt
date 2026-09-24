@@ -1,0 +1,12 @@
+Apostila interativa para estudos referênte as matérias do curso de ADS. Inicialmente focada em 'Matemática Aplicada à Computação II'.
+
+- Utilize o arquivo de ApostilaGeometriaAnalítica como conteúdo base
+- Será dividido em 2 partes: explicação do assunto e quiz interativo 
+- O foco é a prova da 1 NPC, onde terão 8 questões: 6 de múltipla escolha sobre os conceitos apresentados; 2 descritivas onde 1 será sobre o Teorema de Jácobi e 1 de cálculo livre (que provavelmente será de matriz 2x2 ou 3x3)
+- No quiz interativo faça com que a ordem das respostas das perguntas sempre mude, toda vez que o aluno refazer o quiz
+- No quiz interativo utilize 6 questões de multipla escolha mas a cada vez que o aluno refazer, as questões devem mudar aleatoriamente
+- Na explicação do assunto, seja bem didático e descritivo, explicando passo-a-passo a resolução do problema, não ocultado nada. Assuma que o aluno tem dificuldade com a matemática básica do ensino fundamental e médio - principalmente nos esquemas de jogo de sinal.
+- O estilo do site deve ser sóbrio, que facilite e agrade leitura em telas
+- Não exagere nos emojis, degradês e cores
+- Utilize uma fonte agradável para leitura
+- A apostila deverá ser totalmente frontend para rodar no github pages 
