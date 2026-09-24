@@ -64,7 +64,7 @@ export default function Sidebar({ open, onNavigate }) {
 
   return (
     <aside
-      className={`${open ? "block" : "hidden"} border-b border-neutral-200 bg-white px-5 py-4 md:sticky md:top-14 md:block md:max-h-[calc(100vh-3.5rem)] md:w-60 md:flex-none md:overflow-y-auto md:border-b-0 md:border-r md:px-4 md:py-7 dark:border-neutral-800 dark:bg-neutral-950`}
+      className={`${open ? "block" : "hidden"} border-b border-neutral-200 bg-canvas px-5 py-4 md:sticky md:top-14 md:block md:max-h-[calc(100vh-3.5rem)] md:w-60 md:flex-none md:overflow-y-auto md:border-b-0 md:border-r md:px-4 md:py-7 dark:border-neutral-800 dark:bg-canvas-dark`}
       aria-label="Navegação da apostila"
     >
       <NavLink

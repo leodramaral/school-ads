@@ -3,7 +3,7 @@ import ThemeToggle from "./ThemeToggle.jsx";
 
 export default function Header({ onToggleSidebar, sidebarOpen }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/80">
+    <header className="sticky top-0 z-20 border-b border-neutral-200 bg-canvas/80 backdrop-blur dark:border-neutral-800 dark:bg-canvas-dark/80">
       <div className="flex h-14 items-center gap-3 px-5">
         <button
           className="inline-flex h-8 w-8 flex-none items-center justify-center rounded-md border border-neutral-200 text-neutral-700 hover:bg-neutral-100 md:hidden dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"

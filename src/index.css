@@ -16,6 +16,13 @@
 @theme {
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Fundo de página: em vez de branco/preto puros (que geram brilho e
+     halação em leitura prolongada), usamos um off-white morno no claro
+     e o cinza quase-preto recomendado pelo Material Design (#121212)
+     no escuro — cards e outros elementos "flutuam" sobre esse fundo. */
+  --color-canvas: #f7f7f5;
+  --color-canvas-dark: #121212;
 }
 
 /* ---------- Base ---------- */
@@ -26,7 +33,7 @@
   }
 
   body {
-    @apply m-0 bg-white font-sans text-[16px] leading-relaxed text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100;
+    @apply m-0 bg-canvas font-sans text-[16px] leading-relaxed text-neutral-900 antialiased dark:bg-canvas-dark dark:text-neutral-100;
   }
 
   img {
@@ -143,7 +150,7 @@
 
   ol.steps > li::before {
     content: counter(step);
-    @apply absolute -left-4 -top-0.5 flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-blue-500 bg-white text-[0.85rem] font-semibold text-blue-600 dark:bg-neutral-950 dark:text-blue-400;
+    @apply absolute -left-4 -top-0.5 flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-blue-500 bg-canvas text-[0.85rem] font-semibold text-blue-600 dark:bg-canvas-dark dark:text-blue-400;
   }
 
   ol.steps strong {
