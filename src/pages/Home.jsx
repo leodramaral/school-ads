@@ -4,30 +4,28 @@ export default function Home() {
   return (
     <>
       <p className="eyebrow">ADS · Matemática Aplicada à Computação II</p>
-      <div className="card-grid">
-        <Link to="/matrizes" className="card">
-          <span className="card-index">Capítulo 1</span>
-          <h3>Matrizes</h3>
+      <ul className="index-list">
+        <li className="index-item">
+          <span className="index-index">Capítulo 1</span>
+          <Link to="/matrizes">Matrizes</Link>
           <p>Definição, tipos especiais, operações (soma, subtração, multiplicação) e matriz inversa.</p>
-        </Link>
+        </li>
 
-        <Link to="/determinantes" className="card">
-          <span className="card-index">Capítulo 2</span>
-          <h3>Determinantes</h3>
-          <p>
-            Ordem 2 e 3, cofatores, Laplace, Sarrus, propriedades e o Teorema de Jacobi em detalhe.
-          </p>
-        </Link>
+        <li className="index-item">
+          <span className="index-index">Capítulo 2</span>
+          <Link to="/determinantes">Determinantes</Link>
+          <p>Ordem 2 e 3, cofatores, Laplace, Sarrus, propriedades e o Teorema de Jacobi em detalhe.</p>
+        </li>
 
-        <Link to="/pratica" className="card">
-          <span className="card-index">Foco na prova</span>
-          <h3>Prova NPC1</h3>
+        <li className="index-item">
+          <span className="index-index">Foco na prova</span>
+          <Link to="/pratica">Prova NPC1</Link>
           <p>
             Formato da prova, questões descritivas modelo (Teorema de Jacobi e cálculo livre) e o
             quiz interativo de treino.
           </p>
-        </Link>
-      </div>
+        </li>
+      </ul>
     </>
   );
 }

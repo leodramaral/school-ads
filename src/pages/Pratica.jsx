@@ -1,15 +1,7 @@
 import { InlineMath as M } from "react-katex";
 import MathBlock from "../components/MathBlock.jsx";
 import Callout from "../components/Callout.jsx";
-import TOC from "../components/TOC.jsx";
 import { Link } from "react-router-dom";
-
-const TOC_ITEMS = [
-  { id: "formato", label: "Como é a prova do 1º NPC" },
-  { id: "questao-jacobi", label: "Modelo — questão sobre Teorema de Jacobi" },
-  { id: "questao-calculo-livre", label: "Modelo — questão de cálculo livre" },
-  { id: "checklist", label: "Checklist antes da prova" },
-];
 
 export default function Pratica() {
   return (
@@ -21,8 +13,6 @@ export default function Pratica() {
         modelos de resposta completos — do jeito que se espera que uma resposta escrita seja
         organizada.
       </p>
-
-      <TOC items={TOC_ITEMS} />
 
       <h2 id="formato">Como é a prova do 1º NPC</h2>
       <p>A prova tem 8 questões, divididas assim:</p>

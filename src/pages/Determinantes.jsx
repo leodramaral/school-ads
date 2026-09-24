@@ -1,21 +1,7 @@
 import { InlineMath as M } from "react-katex";
 import MathBlock from "../components/MathBlock.jsx";
 import Callout from "../components/Callout.jsx";
-import TOC from "../components/TOC.jsx";
 import { Link } from "react-router-dom";
-
-const TOC_ITEMS = [
-  { id: "o-que-e", label: "O que é um determinante" },
-  { id: "ordem-1-2", label: "Determinante de ordem 1 e 2" },
-  { id: "menor-cofator", label: "Menor complementar e cofator" },
-  { id: "adjunta", label: "Matriz adjunta" },
-  { id: "laplace", label: "Teorema de Laplace (ordem 3 ou mais)" },
-  { id: "sarrus", label: "Regra de Sarrus" },
-  { id: "propriedades", label: "Propriedades dos determinantes" },
-  { id: "jacobi", label: "Teorema de Jacobi" },
-  { id: "chio", label: "Regra de Chió" },
-  { id: "inversa-determinante", label: "Matriz inversa via determinante" },
-];
 
 export default function Determinantes() {
   return (
@@ -27,8 +13,6 @@ export default function Determinantes() {
         para descobrir se uma matriz tem inversa, para resolver sistemas lineares e para calcular áreas
         — e é a base de uma das duas questões descritivas da prova (Teorema de Jacobi).
       </p>
-
-      <TOC items={TOC_ITEMS} />
 
       <h2 id="o-que-e">O que é um determinante</h2>
       <p>

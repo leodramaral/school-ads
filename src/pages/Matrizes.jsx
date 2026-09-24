@@ -1,20 +1,7 @@
 import { InlineMath as M } from "react-katex";
 import MathBlock from "../components/MathBlock.jsx";
 import Callout from "../components/Callout.jsx";
-import TOC from "../components/TOC.jsx";
 import { Link } from "react-router-dom";
-
-const TOC_ITEMS = [
-  { id: "o-que-e", label: "O que é uma matriz" },
-  { id: "tipos-especiais", label: "Tipos especiais de matrizes" },
-  { id: "igualdade", label: "Igualdade de matrizes" },
-  { id: "transposta", label: "Matriz transposta" },
-  { id: "oposta-simetrica", label: "Matriz oposta e matriz simétrica" },
-  { id: "soma-subtracao", label: "Adição e subtração" },
-  { id: "escalar", label: "Multiplicação por um número real" },
-  { id: "multiplicacao", label: "Multiplicação de matrizes" },
-  { id: "inversa", label: "Matriz inversa" },
-];
 
 export default function Matrizes() {
   return (
@@ -25,8 +12,6 @@ export default function Matrizes() {
         Antes de falar de determinantes, é preciso dominar bem o que é uma matriz, como ela é montada
         e quais operações podemos fazer com ela. Vamos com calma, sem pular nenhuma etapa.
       </p>
-
-      <TOC items={TOC_ITEMS} />
 
       <h2 id="o-que-e">O que é uma matriz</h2>
       <p>
