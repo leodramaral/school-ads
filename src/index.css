@@ -36,6 +36,25 @@
     @apply m-0 bg-canvas font-sans text-[16px] leading-relaxed text-neutral-900 antialiased dark:bg-canvas-dark dark:text-neutral-100;
   }
 
+  /* Substitui o outline padrão do navegador (preto, sem relação com a
+     paleta) por um anel na cor de acento, só em navegação por teclado. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-600 dark:outline-blue-400;
+  }
+
+  /* As transições/animações do site são todas curtas e apenas confirmam uma
+     mudança de estado já visível (painel abrindo, barra de progresso, cor no
+     hover) — encurtar a duração aqui preserva o estado final sem a
+     interpolação, sem esconder nenhum feedback. */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   img {
     @apply max-w-full;
   }

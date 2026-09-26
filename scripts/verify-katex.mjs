@@ -2,7 +2,7 @@
 // são renderizáveis pelo KaTeX, sem precisar abrir um navegador.
 import katex from "katex";
 import { readFileSync } from "node:fs";
-import { QUIZ_BANKS } from "../src/data/quizBank/index.js";
+import { QUIZ_BANK_LOADERS } from "../src/data/quizBank/index.js";
 
 let errors = 0;
 let checked = 0;
@@ -18,7 +18,8 @@ function check(math, context) {
 }
 
 // 1) Bancos de questões (um por matéria): extrai todos os trechos $...$
-for (const [subject, bank] of Object.entries(QUIZ_BANKS)) {
+for (const [subject, load] of Object.entries(QUIZ_BANK_LOADERS)) {
+  const bank = await load();
   for (const q of bank) {
     const fields = [q.enunciado, q.explicacao, ...q.opcoes.map((o) => o.texto)];
     for (const field of fields) {

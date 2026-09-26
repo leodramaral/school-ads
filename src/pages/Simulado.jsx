@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { InlineMath } from "react-katex";
 import { Progress } from "@base-ui/react/progress";
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
-import { QUIZ_BANKS } from "../data/quizBank/index.js";
+import { QUIZ_BANK_LOADERS } from "../data/quizBank/index.js";
 import { getActiveSubject } from "../data/subjects.js";
 import { shuffle } from "../utils/shuffle.js";
 import { loadState, saveState, defaultCard, isDue, schedule } from "../utils/srs.js";
@@ -88,20 +88,47 @@ function letterClass({ checked, disabled }, isCorrect) {
 export default function Simulado() {
   const location = useLocation();
   const subject = getActiveSubject(location.pathname);
-  const quizBank = QUIZ_BANKS[subject.slug];
   const simuladoTitle = subject.exam.simulado.title;
 
   const [srsState, setSrsState] = useState(() => loadState());
-  const [round, setRound] = useState(() => buildRound(quizBank, srsState));
+  const [quizBank, setQuizBank] = useState(null);
+  const [round, setRound] = useState(null);
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answered, setAnswered] = useState(false);
   const [log, setLog] = useState([]);
   const [finished, setFinished] = useState(false);
 
+  // O banco de questões da matéria só é baixado aqui, ao abrir o simulado
+  // dela — não junto com o de todas as outras matérias.
+  useEffect(() => {
+    let cancelled = false;
+    setQuizBank(null);
+    setRound(null);
+    QUIZ_BANK_LOADERS[subject.slug]().then((bank) => {
+      if (cancelled) return;
+      setQuizBank(bank);
+      setRound(buildRound(bank, srsState));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [subject.slug]);
+
+  const score = useMemo(() => log.filter((l) => l.correct).length, [log]);
+
+  if (!round) {
+    return (
+      <>
+        <p className="eyebrow">Simulado</p>
+        <h1>{simuladoTitle}</h1>
+        <p className="lede mt-0">Carregando questões…</p>
+      </>
+    );
+  }
+
   const question = round[step];
   const total = round.length;
-  const score = useMemo(() => log.filter((l) => l.correct).length, [log]);
 
   if (total === 0) {
     return (

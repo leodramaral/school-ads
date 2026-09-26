@@ -23,11 +23,11 @@ Deployment is automatic: pushing to `main` triggers `.github/workflows/deploy.ym
 
 To add a subject, you must touch, in tandem:
 1. `src/data/subjects.js` — add the entry to `SUBJECTS`.
-2. `src/data/quizBank/<subject>.js` — export `QUIZ_BANK`, then register it in `src/data/quizBank/index.js`'s `QUIZ_BANKS` map under the subject's slug.
+2. `src/data/quizBank/<subject>.js` — export `QUIZ_BANK`, then register a dynamic import in `src/data/quizBank/index.js`'s `QUIZ_BANK_LOADERS` map under the subject's slug (each matéria's bank is its own chunk, only fetched when its simulado is opened).
 3. `src/pages/<subject>/*.jsx` — one page component per chapter plus the exam page, mirrored under `src/App.jsx`'s `<Routes>` (nested under `SubjectLayout` for chapters, `ExamLayout` for the exam+simulado pair). Routing is not data-driven from `subjects.js`; new subjects need their own `<Route>` entries added by hand.
 4. `scripts/verify-katex.mjs` — the `pages` array hardcodes which page files get scanned for `math="..."` props; add new page paths there or their LaTeX won't be checked.
 
-`Simulado.jsx` is shared across all subjects — it resolves the active subject via `getActiveSubject(location.pathname)` and looks up `QUIZ_BANKS[subject.slug]`, so it needs no per-subject changes.
+`Simulado.jsx` is shared across all subjects — it resolves the active subject via `getActiveSubject(location.pathname)` and awaits `QUIZ_BANK_LOADERS[subject.slug]()`, so it needs no per-subject changes.
 
 ## Quiz bank format and spaced repetition
 
