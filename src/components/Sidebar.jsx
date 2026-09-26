@@ -110,7 +110,7 @@ export default function Sidebar({ open, onNavigate }) {
             onClick={onNavigate}
             className={({ isActive }) =>
               `mb-2 block px-0.5 text-[0.72rem] font-semibold uppercase tracking-wide no-underline ${
-                isActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300"
+                isActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-600 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
               }`
             }
           >
@@ -143,7 +143,7 @@ export default function Sidebar({ open, onNavigate }) {
                     </NavLink>
                     {!isBranchActive && (
                       <Collapsible.Trigger
-                        className="group flex h-6 w-6 flex-none items-center justify-center rounded-md text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
+                        className="group flex h-8 w-8 flex-none items-center justify-center rounded-md text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
                         aria-label={isOpen ? `Recolher ${section.label}` : `Expandir ${section.label}`}
                       >
                         <ChevronIcon />

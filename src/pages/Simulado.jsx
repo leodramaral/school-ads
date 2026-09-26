@@ -79,10 +79,10 @@ function letterClass({ checked, disabled }, isCorrect) {
   if (disabled) {
     if (isCorrect) return "border-green-500 bg-green-500 text-white";
     if (checked) return "border-red-500 bg-red-500 text-white";
-    return "border-neutral-200 text-neutral-400 dark:border-neutral-800";
+    return "border-neutral-200 text-neutral-600 dark:border-neutral-800";
   }
   if (checked) return "border-neutral-900 text-neutral-900 dark:border-neutral-100 dark:text-neutral-100";
-  return "border-neutral-300 text-neutral-500 dark:border-neutral-700";
+  return "border-neutral-300 text-neutral-600 dark:border-neutral-700";
 }
 
 export default function Simulado() {
@@ -102,6 +102,18 @@ export default function Simulado() {
   const question = round[step];
   const total = round.length;
   const score = useMemo(() => log.filter((l) => l.correct).length, [log]);
+
+  if (total === 0) {
+    return (
+      <>
+        <p className="eyebrow">Simulado</p>
+        <h1>{simuladoTitle}</h1>
+        <p className="lede mt-0">
+          Ainda não há questões cadastradas para este simulado. Volte em breve.
+        </p>
+      </>
+    );
+  }
 
   function handleConfirm() {
     if (selected === null) return;
@@ -213,7 +225,7 @@ export default function Simulado() {
       <div className="quiz-card">
         <p className="quiz-topic">
           {question.topico}
-          <span className="ml-1.5 font-normal normal-case text-neutral-400 dark:text-neutral-500">
+          <span className="ml-1.5 font-normal normal-case text-neutral-600 dark:text-neutral-400">
             · {question.srsCard.lastReviewed ? "revisão" : "nova"}
           </span>
         </p>

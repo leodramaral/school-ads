@@ -79,7 +79,7 @@
   }
 
   table {
-    @apply my-5 w-full border-collapse text-sm;
+    @apply my-5 block w-full max-w-full overflow-x-auto border-collapse text-sm;
   }
 
   th,
@@ -96,7 +96,7 @@
 
 @layer components {
   .eyebrow {
-    @apply m-0 text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+    @apply m-0 text-xs font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400;
   }
 
   .lede {
@@ -168,7 +168,7 @@
   }
 
   .index-index {
-    @apply mb-1 block text-[0.74rem] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+    @apply mb-1 block text-[0.74rem] font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400;
   }
 
   .index-item a {
@@ -190,7 +190,7 @@
   }
 
   .card-eyebrow {
-    @apply mb-1 block text-[0.74rem] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+    @apply mb-1 block text-[0.74rem] font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400;
   }
 
   .card-title {
@@ -224,7 +224,7 @@
   /* Quiz */
 
   .quiz-meta {
-    @apply mb-2 flex items-center justify-between text-sm font-semibold text-neutral-500 dark:text-neutral-400;
+    @apply mb-2 flex items-center justify-between text-sm font-semibold text-neutral-600 dark:text-neutral-400;
   }
 
   .quiz-card {
@@ -232,7 +232,7 @@
   }
 
   .quiz-topic {
-    @apply text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+    @apply text-xs font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400;
   }
 
   .quiz-question {
@@ -273,7 +273,7 @@
     @apply flex h-5 w-5 flex-none items-center justify-center rounded-full text-[0.76rem] font-extrabold text-white;
   }
   .score-breakdown .tag.ok {
-    @apply bg-green-600;
+    @apply bg-green-700;
   }
   .score-breakdown .tag.no {
     @apply bg-red-600;
@@ -305,7 +305,7 @@
   }
 
   .next-prev small {
-    @apply block text-[0.7rem] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+    @apply block text-[0.7rem] font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400;
   }
 }
 
@@ -313,7 +313,7 @@
 
 @layer utilities {
   .muted {
-    @apply text-neutral-500 dark:text-neutral-400;
+    @apply text-neutral-600 dark:text-neutral-400;
   }
   .center {
     @apply text-center;
