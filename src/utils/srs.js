@@ -1,15 +1,19 @@
 // Repetição espaçada (SM-2 simplificado): certo/errado já vindo da correção
-// automática do quiz é usado como "quality" (5 ou 0), sem autoavaliação extra.
-// Estado por questão persiste no localStorage, indexado pelo id da questão.
+// automática do quiz (ou da autoavaliação do flashcard) é usado como "quality"
+// (5 ou 0). Estado persiste no localStorage, indexado pelo id da questão/card —
+// cada deck (simulado, flashcards) usa sua própria chave, para não misturar
+// progresso de coisas conceitualmente diferentes.
+
+import { shuffle } from "./shuffle.js";
 
 const STORAGE_KEY = "simulado-srs-v1";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const MIN_EASE = 1.3;
 const INITIAL_EASE = 2.5;
 
-export function loadState() {
+export function loadState(storageKey = STORAGE_KEY) {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     return raw ? JSON.parse(raw) : {};
   } catch {
     // localStorage indisponível (modo privado, etc.) — segue sem persistência.
@@ -17,9 +21,9 @@ export function loadState() {
   }
 }
 
-export function saveState(state) {
+export function saveState(state, storageKey = STORAGE_KEY) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(storageKey, JSON.stringify(state));
   } catch {
     // localStorage indisponível — ignora, a sessão atual continua funcionando.
   }
@@ -61,4 +65,33 @@ export function schedule(card, correct, now) {
     dueDate: now + interval * ONE_DAY_MS,
     lastReviewed: now,
   };
+}
+
+// Monta um round priorizando, nessa ordem: revisões atrasadas (mais atrasada
+// primeiro), depois itens nunca vistos, depois revisões ainda não devidas (a
+// que vence mais cedo). Itens nunca vistos ficam em um grupo à parte —
+// misturá-los com as revisões pela mesma "dueDate" faria eles sempre vencerem
+// as revisões de verdade, já que "nunca visto" não tem um timestamp real.
+// Genérico o bastante para servir tanto o simulado quanto os flashcards —
+// cada chamador decide o que fazer com o item além do `srsCard` anexado
+// (ex.: embaralhar alternativas).
+export function buildRound(bank, srsState, roundSize) {
+  const now = Date.now();
+  const withCard = bank.map((item) => ({ item, card: srsState[item.id] ?? defaultCard() }));
+
+  const dueReview = withCard.filter(({ card }) => card.lastReviewed && isDue(card, now));
+  const newCards = withCard.filter(({ card }) => !card.lastReviewed);
+  const upcoming = withCard.filter(({ card }) => card.lastReviewed && !isDue(card, now));
+  dueReview.sort((a, b) => a.card.dueDate - b.card.dueDate);
+  upcoming.sort((a, b) => a.card.dueDate - b.card.dueDate);
+
+  let picked = dueReview.slice(0, roundSize);
+  if (picked.length < roundSize) {
+    picked = picked.concat(shuffle(newCards).slice(0, roundSize - picked.length));
+  }
+  if (picked.length < roundSize) {
+    picked = picked.concat(upcoming.slice(0, roundSize - picked.length));
+  }
+
+  return shuffle(picked).map(({ item, card }) => ({ ...item, srsCard: card }));
 }

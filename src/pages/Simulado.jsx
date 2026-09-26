@@ -1,60 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { InlineMath } from "react-katex";
 import { Progress } from "@base-ui/react/progress";
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import { QUIZ_BANK_LOADERS } from "../data/quizBank/index.js";
 import { getActiveSubject } from "../data/subjects.js";
 import { shuffle } from "../utils/shuffle.js";
-import { loadState, saveState, defaultCard, isDue, schedule } from "../utils/srs.js";
+import { loadState, saveState, schedule, buildRound as buildSrsRound } from "../utils/srs.js";
+import RichText from "../components/RichText.jsx";
 
 const QUESTIONS_PER_ROUND = 8;
 const LETTERS = ["A", "B", "C", "D"];
 
-// Renderiza um texto que pode conter trechos $...$ com LaTeX misturados com texto comum.
-function RichText({ text }) {
-  const parts = text.split(/(\$[^$]+\$)/g).filter((p) => p !== "");
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.startsWith("$") && part.endsWith("$") ? (
-          <InlineMath key={i} math={part.slice(1, -1)} />
-        ) : (
-          <span key={i}>{part}</span>
-        )
-      )}
-    </>
-  );
-}
-
-// Monta o round priorizando, nessa ordem: revisões atrasadas (mais atrasada
-// primeiro), depois questões nunca vistas, depois revisões ainda não devidas
-// (a que vence mais cedo). Questões nunca vistas ficam em um grupo à parte —
-// misturá-las com as revisões pela mesma "dueDate" faria elas sempre vencerem
-// as revisões de verdade, já que "nunca vista" não tem um timestamp real.
+// Round do simulado = priorização genérica do SRS (srs.js) + embaralhamento
+// das alternativas de cada questão, que é específico de múltipla escolha.
 function buildRound(quizBank, srsState) {
-  const now = Date.now();
-  const withCard = quizBank.map((q) => ({ q, card: srsState[q.id] ?? defaultCard() }));
-
-  const dueReview = withCard.filter(({ card }) => card.lastReviewed && isDue(card, now));
-  const newCards = withCard.filter(({ card }) => !card.lastReviewed);
-  const upcoming = withCard.filter(({ card }) => card.lastReviewed && !isDue(card, now));
-  dueReview.sort((a, b) => a.card.dueDate - b.card.dueDate);
-  upcoming.sort((a, b) => a.card.dueDate - b.card.dueDate);
-
-  let picked = dueReview.slice(0, QUESTIONS_PER_ROUND);
-  if (picked.length < QUESTIONS_PER_ROUND) {
-    picked = picked.concat(shuffle(newCards).slice(0, QUESTIONS_PER_ROUND - picked.length));
-  }
-  if (picked.length < QUESTIONS_PER_ROUND) {
-    picked = picked.concat(upcoming.slice(0, QUESTIONS_PER_ROUND - picked.length));
-  }
-
-  return shuffle(picked).map(({ q, card }) => {
-    const opcoes = shuffle(q.opcoes.map((o, i) => ({ ...o, _origIndex: i })));
-    return { ...q, opcoesEmbaralhadas: opcoes, srsCard: card };
-  });
+  return buildSrsRound(quizBank, srsState, QUESTIONS_PER_ROUND).map((q) => ({
+    ...q,
+    opcoesEmbaralhadas: shuffle(q.opcoes.map((o, i) => ({ ...o, _origIndex: i }))),
+  }));
 }
 
 // Classes do card de cada alternativa, de acordo com o estado (selecionada,

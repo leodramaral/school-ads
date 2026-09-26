@@ -3,6 +3,7 @@
 import katex from "katex";
 import { readFileSync } from "node:fs";
 import { QUIZ_BANK_LOADERS } from "../src/data/quizBank/index.js";
+import { FLASHCARD_BANK_LOADERS } from "../src/data/flashcardBank/index.js";
 
 let errors = 0;
 let checked = 0;
@@ -31,7 +32,21 @@ for (const [subject, load] of Object.entries(QUIZ_BANK_LOADERS)) {
   }
 }
 
-// 2) Páginas JSX: extrai math="..." (aceita aspas simples/duplas)
+// 2) Bancos de flashcards (um por matéria): extrai todos os trechos $...$
+for (const [subject, load] of Object.entries(FLASHCARD_BANK_LOADERS)) {
+  const bank = await load();
+  for (const card of bank) {
+    const fields = [card.frente, card.verso];
+    for (const field of fields) {
+      const matches = field.match(/\$[^$]+\$/g) || [];
+      for (const m of matches) {
+        check(m.slice(1, -1), `flashcardBank[${subject}][${card.id}]`);
+      }
+    }
+  }
+}
+
+// 3) Páginas JSX: extrai math="..." (aceita aspas simples/duplas)
 const pages = [
   "src/pages/matematica/Matrizes.jsx",
   "src/pages/matematica/Determinantes.jsx",

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { getActiveSubject, chapterPath, examPath } from "../data/subjects.js";
+import { getActiveSubject, chapterPath, examPath, flashcardsPath } from "../data/subjects.js";
 
 // Home de uma matéria (ex: /matematica): cards para os assuntos e para a
 // prova (que já leva embutido o simulado, uma vez lá dentro).
@@ -28,6 +28,12 @@ export default function SubjectHome() {
           <p className="card-desc">
             {subject.exam.description} O simulado de treino fica dentro dessa página.
           </p>
+        </Link>
+
+        <Link to={flashcardsPath(subject)} className="card">
+          <span className="card-eyebrow">{subject.flashcards.eyebrow}</span>
+          <span className="card-title">{subject.flashcards.label}</span>
+          <p className="card-desc">{subject.flashcards.description}</p>
         </Link>
       </div>
     </>

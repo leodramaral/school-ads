@@ -63,6 +63,13 @@ export const SUBJECTS = [
         title: "Matrizes e Determinantes",
       },
     },
+    flashcards: {
+      slug: "flashcards",
+      label: "Flashcards",
+      eyebrow: "Revisão rápida",
+      description: "Definições, notações e propriedades de Matrizes e Determinantes em pares frente/verso.",
+      title: "Matrizes e Determinantes",
+    },
     credit: {
       sourceNote:
         "Baseado nas notas de aula de Geometria Analítica I: Matrizes, Determinantes e Sistemas Lineares (Profª Viviane Carla Fortulan).",
@@ -150,6 +157,13 @@ export const SUBJECTS = [
         title: "IHC: Conceitos e Fundamentos",
       },
     },
+    flashcards: {
+      slug: "flashcards",
+      label: "Flashcards",
+      eyebrow: "Revisão rápida",
+      description: "Termos e definições das 5 aulas de IHC em pares frente/verso.",
+      title: "IHC: Conceitos e Fundamentos",
+    },
     credit: {
       sourceNote: "Baseado no Guia Integral de Estudos de IHC (resumo de aula).",
       pdfHref: "./resumo-ihc.pdf",
@@ -168,6 +182,10 @@ export function examPath(subject) {
 
 export function simuladoPath(subject) {
   return `${examPath(subject)}/${subject.exam.simulado.slug}`;
+}
+
+export function flashcardsPath(subject) {
+  return `/${subject.slug}/${subject.flashcards.slug}`;
 }
 
 export function getSubjectBySlug(slug) {

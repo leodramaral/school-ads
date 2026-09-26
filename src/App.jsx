@@ -22,6 +22,7 @@ const FatoresHumanosIhc = lazy(() => import("./pages/ihc/FatoresHumanos.jsx"));
 const ErgonomiaIhc = lazy(() => import("./pages/ihc/Ergonomia.jsx"));
 const ProvaIhc = lazy(() => import("./pages/ihc/Prova.jsx"));
 const Simulado = lazy(() => import("./pages/Simulado.jsx"));
+const Flashcards = lazy(() => import("./pages/Flashcards.jsx"));
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -45,6 +46,7 @@ export default function App() {
                 <Route index element={<SubjectHome />} />
                 <Route path="matrizes" element={<Matrizes />} />
                 <Route path="determinantes" element={<Determinantes />} />
+                <Route path="flashcards" element={<Flashcards />} />
                 <Route path="npc1" element={<ExamLayout />}>
                   <Route index element={<Pratica />} />
                   <Route path="simulado" element={<Simulado />} />
@@ -57,6 +59,7 @@ export default function App() {
                 <Route path="heuristicas" element={<HeuristicasIhc />} />
                 <Route path="fatores-humanos" element={<FatoresHumanosIhc />} />
                 <Route path="ergonomia" element={<ErgonomiaIhc />} />
+                <Route path="flashcards" element={<Flashcards />} />
                 <Route path="npc1" element={<ExamLayout />}>
                   <Route index element={<ProvaIhc />} />
                   <Route path="simulado" element={<Simulado />} />

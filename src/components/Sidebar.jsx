@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Collapsible } from "@base-ui/react/collapsible";
-import { SUBJECTS, chapterPath, examPath, simuladoPath } from "../data/subjects.js";
+import { SUBJECTS, chapterPath, examPath, simuladoPath, flashcardsPath } from "../data/subjects.js";
 
 function ChevronIcon() {
   return (
@@ -46,7 +46,14 @@ function subjectSections(subject) {
     simulado: { path: simuladoPath(subject), label: subject.exam.simulado.label },
   };
 
-  return [...chapters, exam];
+  const flashcards = {
+    path: flashcardsPath(subject),
+    label: subject.flashcards.label,
+    items: [],
+    simulado: null,
+  };
+
+  return [...chapters, exam, flashcards];
 }
 
 export default function Sidebar({ open, onNavigate }) {
@@ -122,6 +129,7 @@ export default function Sidebar({ open, onNavigate }) {
             const isBranchActive =
               isOwnPage || (section.simulado && location.pathname === section.simulado.path);
             const isOpen = isBranchActive || !!expanded[section.path];
+            const hasExpandable = section.items.length > 0 || !!section.simulado;
 
             return (
               <div className="mb-4 last:mb-0" key={section.path}>
@@ -141,7 +149,7 @@ export default function Sidebar({ open, onNavigate }) {
                     >
                       {section.label}
                     </NavLink>
-                    {!isBranchActive && (
+                    {hasExpandable && !isBranchActive && (
                       <Collapsible.Trigger
                         className="group flex h-8 w-8 flex-none items-center justify-center rounded-md text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
                         aria-label={isOpen ? `Recolher ${section.label}` : `Expandir ${section.label}`}
@@ -151,6 +159,7 @@ export default function Sidebar({ open, onNavigate }) {
                     )}
                   </div>
 
+                  {hasExpandable && (
                   <Collapsible.Panel className="flex h-[var(--collapsible-panel-height)] flex-col overflow-hidden transition-[height] duration-150 ease-out data-ending-style:h-0 data-starting-style:h-0">
                     <ul className="ml-1 mt-2 list-none border-l-2 border-neutral-200 py-0 pl-3 dark:border-neutral-800">
                       {section.items.map((item) => (
@@ -197,6 +206,7 @@ export default function Sidebar({ open, onNavigate }) {
                       )}
                     </ul>
                   </Collapsible.Panel>
+                  )}
                 </Collapsible.Root>
               </div>
             );

@@ -298,6 +298,55 @@
     @apply bg-red-600;
   }
 
+  /* Flashcards */
+
+  .flashcard-scene {
+    @apply [perspective:1400px];
+  }
+
+  .flashcard-flip {
+    @apply relative min-h-72 w-full [transform-style:preserve-3d] transition-transform duration-500 ease-out sm:min-h-64;
+  }
+  .flashcard-flip.is-flipped {
+    @apply [transform:rotateY(180deg)];
+  }
+
+  .flashcard-face {
+    @apply absolute inset-0 flex flex-col items-center justify-center gap-3 overflow-y-auto rounded-2xl border border-neutral-200 bg-white p-6 text-center shadow-sm [backface-visibility:hidden] dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-none;
+  }
+  .flashcard-face--back {
+    @apply border-blue-100 bg-blue-50 [transform:rotateY(180deg)] dark:border-blue-500/20 dark:bg-blue-500/10;
+  }
+
+  .flashcard-badge {
+    @apply inline-block flex-none rounded-full bg-blue-100 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-blue-700 dark:bg-blue-500/15 dark:text-blue-300;
+  }
+
+  .flashcard-text {
+    @apply text-lg font-semibold text-neutral-900 dark:text-neutral-50;
+  }
+
+  @keyframes flashcard-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  .flashcard-enter {
+    animation: flashcard-in 0.35s ease-out both;
+  }
+
+  .btn.recall-yes {
+    @apply border-green-600 bg-green-600 hover:border-green-700 hover:bg-green-700 dark:border-green-600 dark:bg-green-600 dark:text-white dark:hover:border-green-500 dark:hover:bg-green-500;
+  }
+  .btn.recall-no {
+    @apply border-neutral-200 bg-transparent text-neutral-900 hover:border-red-500 hover:bg-red-50 hover:text-red-700 dark:border-neutral-800 dark:text-neutral-100 dark:hover:border-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-300;
+  }
+
   /* Checklist (revisão antes da prova) */
 
   ul.checklist {
