@@ -24,7 +24,7 @@ function ChevronIcon() {
 const navLinkClass = (isActive) =>
   `block rounded-md px-2 py-1 text-[0.85rem] no-underline ${
     isActive
-      ? "font-semibold text-blue-600 dark:text-blue-400"
+      ? "bg-blue-50 font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-300"
       : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
   }`;
 
@@ -93,7 +93,7 @@ export default function Sidebar({ open, onNavigate }) {
 
   return (
     <aside
-      className={`${open ? "block" : "hidden"} border-b border-neutral-200 bg-canvas px-5 py-4 md:sticky md:top-14 md:block md:max-h-[calc(100vh-3.5rem)] md:w-60 md:flex-none md:overflow-y-auto md:border-b-0 md:border-r md:px-4 md:py-7 dark:border-neutral-800 dark:bg-canvas-dark`}
+      className={`${open ? "block" : "hidden"} border-b border-neutral-200 bg-canvas px-5 py-4 md:sticky md:top-14 md:block md:max-h-[calc(100vh-3.5rem)] md:w-64 md:flex-none md:overflow-y-auto md:border-b-0 md:border-r md:px-4 md:py-7 dark:border-neutral-800 dark:bg-canvas-dark`}
       aria-label="Navegação da apostila"
     >
       <NavLink
@@ -110,7 +110,7 @@ export default function Sidebar({ open, onNavigate }) {
       </NavLink>
 
       {SUBJECTS.map((subject) => (
-        <div className="mb-5 last:mb-0" key={subject.slug}>
+        <div className="mb-8 last:mb-0" key={subject.slug}>
           <NavLink
             to={`/${subject.slug}`}
             end
@@ -132,7 +132,7 @@ export default function Sidebar({ open, onNavigate }) {
             const hasExpandable = section.items.length > 0 || !!section.simulado;
 
             return (
-              <div className="mb-4 last:mb-0" key={section.path}>
+              <div className="mb-3 last:mb-0" key={section.path}>
                 <Collapsible.Root
                   open={isOpen}
                   onOpenChange={(next) => setExpanded((prev) => ({ ...prev, [section.path]: next }))}
@@ -142,8 +142,10 @@ export default function Sidebar({ open, onNavigate }) {
                       to={section.path}
                       onClick={onNavigate}
                       className={({ isActive: navActive }) =>
-                        `block flex-1 truncate rounded-md py-0.5 text-[0.92rem] font-semibold no-underline ${
-                          navActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
+                        `-ml-2 block flex-1 rounded-md py-1 pl-2 pr-1 text-[0.92rem] font-semibold leading-snug no-underline ${
+                          navActive
+                            ? "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300"
+                            : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
                         }`
                       }
                     >

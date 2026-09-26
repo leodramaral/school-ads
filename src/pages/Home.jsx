@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { SUBJECTS } from "../data/subjects.js";
+import { SUBJECTS, simuladoPath, flashcardsPath } from "../data/subjects.js";
 
 export default function Home() {
   return (
@@ -10,14 +10,30 @@ export default function Home() {
 
       <div className="card-grid">
         {SUBJECTS.map((subject) => (
-          <Link key={subject.slug} to={`/${subject.slug}`} className="card">
-            <span className="card-eyebrow">Matéria</span>
-            <span className="card-title">{subject.label}</span>
-            <p className="card-desc">
-              {subject.chapters.length} assunto{subject.chapters.length === 1 ? "" : "s"} + {subject.exam.label}{" "}
-              com simulado
-            </p>
-          </Link>
+          <div key={subject.slug} className="card-group">
+            <Link to={`/${subject.slug}`} className="group block no-underline">
+              <span className="card-eyebrow">Matéria</span>
+              <span className="card-title transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                {subject.label}
+              </span>
+              <p className="card-desc">
+                {subject.chapters.length} assunto{subject.chapters.length === 1 ? "" : "s"} + {subject.exam.label}{" "}
+                com simulado
+              </p>
+            </Link>
+            <div
+              className="mt-4 flex flex-wrap gap-2 border-t border-neutral-200 pt-3 dark:border-neutral-800"
+              role="group"
+              aria-label={`Atalhos de ${subject.label}`}
+            >
+              <Link to={simuladoPath(subject)} className="card-shortcut">
+                Simulado
+              </Link>
+              <Link to={flashcardsPath(subject)} className="card-shortcut">
+                Flashcards
+              </Link>
+            </div>
+          </div>
         ))}
       </div>
     </>

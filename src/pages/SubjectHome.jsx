@@ -13,6 +13,7 @@ export default function SubjectHome() {
       <h1>{subject.label}</h1>
       <p className="lede mt-0">Assuntos da matéria e simulado de treino para a prova.</p>
 
+      <h2>Capítulos</h2>
       <div className="card-grid">
         {subject.chapters.map((chapter) => (
           <Link key={chapter.slug} to={chapterPath(subject, chapter)} className="card">
@@ -21,7 +22,10 @@ export default function SubjectHome() {
             <p className="card-desc">{chapter.description}</p>
           </Link>
         ))}
+      </div>
 
+      <h2>Praticar</h2>
+      <div className="card-grid">
         <Link to={examPath(subject)} className="card">
           <span className="card-eyebrow">{subject.exam.eyebrow}</span>
           <span className="card-title">{subject.exam.label}</span>
