@@ -1,6 +1,6 @@
 import { InlineMath as M } from "react-katex";
-import MathBlock from "../components/MathBlock.jsx";
-import Callout from "../components/Callout.jsx";
+import MathBlock from "../../components/MathBlock.jsx";
+import Callout from "../../components/Callout.jsx";
 import { Link } from "react-router-dom";
 
 export default function Pratica() {
@@ -20,7 +20,7 @@ export default function Pratica() {
         <li>
           <strong>6 questões de múltipla escolha</strong> sobre os conceitos de Matrizes e
           Determinantes (tipos de matriz, operações, propriedades de determinante, cofatores etc.) —
-          treine essa parte no <Link to="/quiz">quiz interativo</Link>.
+          treine essa parte no <Link to="/matematica/npc1/simulado">simulado</Link>.
         </li>
         <li>
           <strong>1 questão descritiva sobre o Teorema de Jacobi</strong> — normalmente pede para
@@ -192,14 +192,14 @@ export default function Pratica() {
           Refiz o cálculo de sinal em cada exemplo desta apostila com a caneta na mão, sem só ler.
         </li>
         <li>
-          Fiz o <Link to="/quiz">quiz interativo</Link> pelo menos três vezes seguidas, sem repetir
+          Fiz o <Link to="/matematica/npc1/simulado">simulado</Link> pelo menos três vezes seguidas, sem repetir
           erro.
         </li>
       </ul>
 
       <div className="center" style={{ marginTop: "2rem" }}>
-        <Link to="/quiz" className="btn">
-          Ir para o quiz interativo
+        <Link to="/matematica/npc1/simulado" className="btn">
+          Ir para o simulado
         </Link>
       </div>
     </>

@@ -1,9 +1,9 @@
 {
-  "name": "apostila-matematica-ads",
+  "name": "apostila-ads",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Apostila interativa de Matrizes e Determinantes para o curso de ADS — Matemática Aplicada à Computação II.",
+  "description": "Apostilas interativas do curso de ADS, organizadas por matéria (assuntos + simulado de prova).",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

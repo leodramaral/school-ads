@@ -1,6 +1,6 @@
-// Banco de questões do quiz interativo (Matrizes e Determinantes).
+// Banco de questões do simulado de Matemática (Matrizes e Determinantes).
 // A cada tentativa, 6 questões são sorteadas do banco e as alternativas embaralhadas,
-// então refazer o quiz sempre resulta em uma prova diferente.
+// então refazer o simulado sempre resulta em uma prova diferente.
 
 export const QUIZ_BANK = [
   // ---------------- MATRIZES ----------------

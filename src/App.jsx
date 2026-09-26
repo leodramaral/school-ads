@@ -3,11 +3,14 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Sidebar from "./components/Sidebar.jsx";
+import SubjectLayout from "./components/SubjectLayout.jsx";
+import ExamLayout from "./components/ExamLayout.jsx";
 import Home from "./pages/Home.jsx";
-import Matrizes from "./pages/Matrizes.jsx";
-import Determinantes from "./pages/Determinantes.jsx";
-import Pratica from "./pages/Pratica.jsx";
-import Quiz from "./pages/Quiz.jsx";
+import SubjectHome from "./pages/SubjectHome.jsx";
+import Matrizes from "./pages/matematica/Matrizes.jsx";
+import Determinantes from "./pages/matematica/Determinantes.jsx";
+import Pratica from "./pages/matematica/Pratica.jsx";
+import Simulado from "./pages/Simulado.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 
 export default function App() {
@@ -27,10 +30,15 @@ export default function App() {
         <main className="min-w-0 flex-1 px-5 py-8 pb-20 md:max-w-3xl md:px-10 md:py-10">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/matrizes" element={<Matrizes />} />
-            <Route path="/determinantes" element={<Determinantes />} />
-            <Route path="/pratica" element={<Pratica />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/matematica" element={<SubjectLayout />}>
+              <Route index element={<SubjectHome />} />
+              <Route path="matrizes" element={<Matrizes />} />
+              <Route path="determinantes" element={<Determinantes />} />
+              <Route path="npc1" element={<ExamLayout />}>
+                <Route index element={<Pratica />} />
+                <Route path="simulado" element={<Simulado />} />
+              </Route>
+            </Route>
           </Routes>
         </main>
       </div>

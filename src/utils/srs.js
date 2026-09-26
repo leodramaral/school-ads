@@ -2,7 +2,7 @@
 // automática do quiz é usado como "quality" (5 ou 0), sem autoavaliação extra.
 // Estado por questão persiste no localStorage, indexado pelo id da questão.
 
-const STORAGE_KEY = "quiz-srs-v1";
+const STORAGE_KEY = "simulado-srs-v1";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const MIN_EASE = 1.3;
 const INITIAL_EASE = 2.5;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Collapsible } from "@base-ui/react/collapsible";
-import { SECTIONS } from "../data/sections.js";
+import { SUBJECTS, chapterPath, examPath, simuladoPath } from "../data/subjects.js";
 
 function ChevronIcon() {
   return (
@@ -28,6 +28,27 @@ const navLinkClass = (isActive) =>
       : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
   }`;
 
+// Achata uma matéria em capítulos + prova, todos no mesmo formato de "seção"
+// que a sidebar sabe renderizar (path, label, items de âncora). A prova
+// carrega também o link do simulado, que é filho dela, não uma seção à parte.
+function subjectSections(subject) {
+  const chapters = subject.chapters.map((chapter) => ({
+    path: chapterPath(subject, chapter),
+    label: chapter.label,
+    items: chapter.items,
+    simulado: null,
+  }));
+
+  const exam = {
+    path: examPath(subject),
+    label: subject.exam.label,
+    items: subject.exam.items,
+    simulado: { path: simuladoPath(subject), label: subject.exam.simulado.label },
+  };
+
+  return [...chapters, exam];
+}
+
 export default function Sidebar({ open, onNavigate }) {
   const location = useLocation();
   const [expanded, setExpanded] = useState({});
@@ -37,7 +58,8 @@ export default function Sidebar({ open, onNavigate }) {
   // o item correspondente na sidebar, mesmo que o usuário role manualmente
   // (sem clicar em nada).
   useEffect(() => {
-    const activeSection = SECTIONS.find((s) => s.path === location.pathname);
+    const allSections = SUBJECTS.flatMap(subjectSections);
+    const activeSection = allSections.find((s) => s.path === location.pathname);
     if (!activeSection) {
       setActiveId(null);
       return undefined;
@@ -80,90 +102,107 @@ export default function Sidebar({ open, onNavigate }) {
         Início
       </NavLink>
 
-      {SECTIONS.map((section) => {
-        const isActive = location.pathname === section.path;
-        const isOpen = isActive || !!expanded[section.path];
-        return (
-          <div className="mb-4 last:mb-0" key={section.path}>
-            <Collapsible.Root
-              open={isOpen}
-              onOpenChange={(next) => setExpanded((prev) => ({ ...prev, [section.path]: next }))}
-            >
-              <div className="flex items-center gap-1">
-                <NavLink
-                  to={section.path}
-                  onClick={onNavigate}
-                  className={({ isActive: navActive }) =>
-                    `block flex-1 truncate rounded-md py-0.5 text-[0.92rem] font-semibold no-underline ${
-                      navActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
-                    }`
-                  }
+      {SUBJECTS.map((subject) => (
+        <div className="mb-5 last:mb-0" key={subject.slug}>
+          <NavLink
+            to={`/${subject.slug}`}
+            end
+            onClick={onNavigate}
+            className={({ isActive }) =>
+              `mb-2 block px-0.5 text-[0.72rem] font-semibold uppercase tracking-wide no-underline ${
+                isActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300"
+              }`
+            }
+          >
+            {subject.shortLabel}
+          </NavLink>
+
+          {subjectSections(subject).map((section) => {
+            const isOwnPage = location.pathname === section.path;
+            const isBranchActive =
+              isOwnPage || (section.simulado && location.pathname === section.simulado.path);
+            const isOpen = isBranchActive || !!expanded[section.path];
+
+            return (
+              <div className="mb-4 last:mb-0" key={section.path}>
+                <Collapsible.Root
+                  open={isOpen}
+                  onOpenChange={(next) => setExpanded((prev) => ({ ...prev, [section.path]: next }))}
                 >
-                  {section.label}
-                </NavLink>
-                {!isActive && (
-                  <Collapsible.Trigger
-                    className="group flex h-6 w-6 flex-none items-center justify-center rounded-md text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
-                    aria-label={isOpen ? `Recolher ${section.label}` : `Expandir ${section.label}`}
-                  >
-                    <ChevronIcon />
-                  </Collapsible.Trigger>
-                )}
-              </div>
+                  <div className="flex items-center gap-1">
+                    <NavLink
+                      to={section.path}
+                      onClick={onNavigate}
+                      className={({ isActive: navActive }) =>
+                        `block flex-1 truncate rounded-md py-0.5 text-[0.92rem] font-semibold no-underline ${
+                          navActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
+                        }`
+                      }
+                    >
+                      {section.label}
+                    </NavLink>
+                    {!isBranchActive && (
+                      <Collapsible.Trigger
+                        className="group flex h-6 w-6 flex-none items-center justify-center rounded-md text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-100"
+                        aria-label={isOpen ? `Recolher ${section.label}` : `Expandir ${section.label}`}
+                      >
+                        <ChevronIcon />
+                      </Collapsible.Trigger>
+                    )}
+                  </div>
 
-              <Collapsible.Panel className="flex h-[var(--collapsible-panel-height)] flex-col overflow-hidden transition-[height] duration-150 ease-out data-ending-style:h-0 data-starting-style:h-0">
-                <ul className="ml-1 mt-2 list-none border-l-2 border-neutral-200 py-0 pl-3 dark:border-neutral-800">
-                  {section.items.map((item) => (
-                    <li key={item.id}>
-                      {isActive ? (
-                        <a
-                          href={`#${item.id}`}
-                          className={navLinkClass(item.id === activeId)}
-                          onClick={(e) => {
-                            // Evita que o HashRouter interprete "#id" como troca de rota:
-                            // navega manualmente até a âncora dentro da própria página.
-                            e.preventDefault();
-                            onNavigate?.();
-                            setActiveId(item.id);
-                            requestAnimationFrame(() => {
-                              document.getElementById(item.id)?.scrollIntoView({
-                                behavior: "smooth",
-                                block: "start",
-                              });
-                            });
-                          }}
-                        >
-                          {item.label}
-                        </a>
-                      ) : (
-                        // Seção só expandida para prévia (não é a página atual): o link leva
-                        // até lá e já rola para a âncora certa assim que a página carregar.
-                        <NavLink to={`${section.path}#${item.id}`} onClick={onNavigate} className={navLinkClass(false)}>
-                          {item.label}
-                        </NavLink>
+                  <Collapsible.Panel className="flex h-[var(--collapsible-panel-height)] flex-col overflow-hidden transition-[height] duration-150 ease-out data-ending-style:h-0 data-starting-style:h-0">
+                    <ul className="ml-1 mt-2 list-none border-l-2 border-neutral-200 py-0 pl-3 dark:border-neutral-800">
+                      {section.items.map((item) => (
+                        <li key={item.id}>
+                          {isOwnPage ? (
+                            <a
+                              href={`#${item.id}`}
+                              className={navLinkClass(item.id === activeId)}
+                              onClick={(e) => {
+                                // Evita que o HashRouter interprete "#id" como troca de rota:
+                                // navega manualmente até a âncora dentro da própria página.
+                                e.preventDefault();
+                                onNavigate?.();
+                                setActiveId(item.id);
+                                requestAnimationFrame(() => {
+                                  document.getElementById(item.id)?.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start",
+                                  });
+                                });
+                              }}
+                            >
+                              {item.label}
+                            </a>
+                          ) : (
+                            // Seção só expandida para prévia (não é a página atual): o link leva
+                            // até lá e já rola para a âncora certa assim que a página carregar.
+                            <NavLink to={`${section.path}#${item.id}`} onClick={onNavigate} className={navLinkClass(false)}>
+                              {item.label}
+                            </NavLink>
+                          )}
+                        </li>
+                      ))}
+                      {section.simulado && (
+                        <li>
+                          <NavLink
+                            to={section.simulado.path}
+                            onClick={onNavigate}
+                            className={({ isActive }) => navLinkClass(isActive) + " font-semibold"}
+                          >
+                            {section.simulado.label}
+                          </NavLink>
+                        </li>
                       )}
-                    </li>
-                  ))}
-                </ul>
-              </Collapsible.Panel>
-            </Collapsible.Root>
-          </div>
-        );
-      })}
-
-      <div className="mb-4 last:mb-0">
-        <NavLink
-          to="/quiz"
-          onClick={onNavigate}
-          className={({ isActive }) =>
-            `block rounded-md py-0.5 text-[0.92rem] font-semibold no-underline ${
-              isActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
-            }`
-          }
-        >
-          Quiz interativo
-        </NavLink>
-      </div>
+                    </ul>
+                  </Collapsible.Panel>
+                </Collapsible.Root>
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </aside>
   );
 }

@@ -2,7 +2,7 @@
 // são renderizáveis pelo KaTeX, sem precisar abrir um navegador.
 import katex from "katex";
 import { readFileSync } from "node:fs";
-import { QUIZ_BANK } from "../src/data/quizBank.js";
+import { QUIZ_BANKS } from "../src/data/quizBank/index.js";
 
 let errors = 0;
 let checked = 0;
@@ -17,22 +17,24 @@ function check(math, context) {
   }
 }
 
-// 1) Banco de questões: extrai todos os trechos $...$
-for (const q of QUIZ_BANK) {
-  const fields = [q.enunciado, q.explicacao, ...q.opcoes.map((o) => o.texto)];
-  for (const field of fields) {
-    const matches = field.match(/\$[^$]+\$/g) || [];
-    for (const m of matches) {
-      check(m.slice(1, -1), `quizBank[${q.id}]`);
+// 1) Bancos de questões (um por matéria): extrai todos os trechos $...$
+for (const [subject, bank] of Object.entries(QUIZ_BANKS)) {
+  for (const q of bank) {
+    const fields = [q.enunciado, q.explicacao, ...q.opcoes.map((o) => o.texto)];
+    for (const field of fields) {
+      const matches = field.match(/\$[^$]+\$/g) || [];
+      for (const m of matches) {
+        check(m.slice(1, -1), `quizBank[${subject}][${q.id}]`);
+      }
     }
   }
 }
 
 // 2) Páginas JSX: extrai math="..." (aceita aspas simples/duplas)
 const pages = [
-  "src/pages/Matrizes.jsx",
-  "src/pages/Determinantes.jsx",
-  "src/pages/Pratica.jsx",
+  "src/pages/matematica/Matrizes.jsx",
+  "src/pages/matematica/Determinantes.jsx",
+  "src/pages/matematica/Pratica.jsx",
   "src/pages/Home.jsx",
 ];
 

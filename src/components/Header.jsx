@@ -1,7 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle.jsx";
+import { getActiveSubject } from "../data/subjects.js";
 
 export default function Header({ onToggleSidebar, sidebarOpen }) {
+  const location = useLocation();
+  const activeSubject = getActiveSubject(location.pathname);
+  const tagline = activeSubject ? `ADS · ${activeSubject.label}` : "Apostilas interativas · ADS";
+
   return (
     <header className="sticky top-0 z-20 border-b border-neutral-200 bg-canvas/80 backdrop-blur dark:border-neutral-800 dark:bg-canvas-dark/80">
       <div className="flex h-14 items-center gap-3 px-5">
@@ -20,7 +25,7 @@ export default function Header({ onToggleSidebar, sidebarOpen }) {
         >
           <span className="text-[1.02rem]">Apostila Interativa</span>
           <span className="text-[0.7rem] font-normal uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-            ADS · Matemática Aplicada II
+            {tagline}
           </span>
         </NavLink>
 

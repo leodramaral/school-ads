@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { InlineMath } from "react-katex";
 import { Progress } from "@base-ui/react/progress";
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
-import { QUIZ_BANK } from "../data/quizBank.js";
+import { QUIZ_BANKS } from "../data/quizBank/index.js";
+import { getActiveSubject } from "../data/subjects.js";
 import { shuffle } from "../utils/shuffle.js";
 import { loadState, saveState, defaultCard, isDue, schedule } from "../utils/srs.js";
 
@@ -31,9 +33,9 @@ function RichText({ text }) {
 // (a que vence mais cedo). Questões nunca vistas ficam em um grupo à parte —
 // misturá-las com as revisões pela mesma "dueDate" faria elas sempre vencerem
 // as revisões de verdade, já que "nunca vista" não tem um timestamp real.
-function buildRound(srsState) {
+function buildRound(quizBank, srsState) {
   const now = Date.now();
-  const withCard = QUIZ_BANK.map((q) => ({ q, card: srsState[q.id] ?? defaultCard() }));
+  const withCard = quizBank.map((q) => ({ q, card: srsState[q.id] ?? defaultCard() }));
 
   const dueReview = withCard.filter(({ card }) => card.lastReviewed && isDue(card, now));
   const newCards = withCard.filter(({ card }) => !card.lastReviewed);
@@ -83,9 +85,14 @@ function letterClass({ checked, disabled }, isCorrect) {
   return "border-neutral-300 text-neutral-500 dark:border-neutral-700";
 }
 
-export default function Quiz() {
+export default function Simulado() {
+  const location = useLocation();
+  const subject = getActiveSubject(location.pathname);
+  const quizBank = QUIZ_BANKS[subject.slug];
+  const simuladoTitle = subject.exam.simulado.title;
+
   const [srsState, setSrsState] = useState(() => loadState());
-  const [round, setRound] = useState(() => buildRound(srsState));
+  const [round, setRound] = useState(() => buildRound(quizBank, srsState));
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answered, setAnswered] = useState(false);
@@ -129,7 +136,7 @@ export default function Quiz() {
   }
 
   function handleRestart() {
-    setRound(buildRound(srsState));
+    setRound(buildRound(quizBank, srsState));
     setStep(0);
     setSelected(null);
     setAnswered(false);
@@ -139,14 +146,14 @@ export default function Quiz() {
 
   if (finished) {
     const pct = Math.round((score / total) * 100);
-    let message = "Vale revisar Matrizes e Determinantes com calma antes da prova.";
-    if (pct === 100) message = "Nota máxima! Você está pronto para o 1º NPC.";
+    let message = `Vale revisar ${simuladoTitle} com calma antes da prova.`;
+    if (pct === 100) message = "Nota máxima! Você está pronto para a prova.";
     else if (pct >= 70) message = "Muito bom! Reforce só os pontos que errou.";
-    else if (pct >= 40) message = "Bom começo — releia as páginas de Matrizes e Determinantes.";
+    else if (pct >= 40) message = `Bom começo — releia as páginas de ${simuladoTitle}.`;
 
     return (
       <>
-        <p className="eyebrow">Quiz interativo</p>
+        <p className="eyebrow">Simulado</p>
         <h1>Resultado</h1>
         <div className="quiz-card quiz-result">
           <p className="muted mt-0">Você acertou</p>
@@ -169,7 +176,7 @@ export default function Quiz() {
 
         <div className="center">
           <button className="btn" onClick={handleRestart}>
-            Refazer o quiz (novas questões)
+            Refazer o simulado (novas questões)
           </button>
         </div>
       </>
@@ -178,8 +185,8 @@ export default function Quiz() {
 
   return (
     <>
-      <p className="eyebrow">Quiz interativo</p>
-      <h1>Matrizes e Determinantes</h1>
+      <p className="eyebrow">Simulado</p>
+      <h1>{simuladoTitle}</h1>
       <p className="lede mt-0">
         {QUESTIONS_PER_ROUND} questões de múltipla escolha, priorizadas por repetição espaçada: o que
         você errou ou não revisa há mais tempo aparece primeiro. A ordem das alternativas — e as

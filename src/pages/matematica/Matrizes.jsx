@@ -1,6 +1,6 @@
 import { InlineMath as M } from "react-katex";
-import MathBlock from "../components/MathBlock.jsx";
-import Callout from "../components/Callout.jsx";
+import MathBlock from "../../components/MathBlock.jsx";
+import Callout from "../../components/Callout.jsx";
 import { Link } from "react-router-dom";
 
 export default function Matrizes() {
@@ -405,7 +405,7 @@ export default function Matrizes() {
 
       <div className="next-prev">
         <span />
-        <Link to="/determinantes">
+        <Link to="/matematica/determinantes">
           <small>Próximo capítulo</small>
           Determinantes →
         </Link>
