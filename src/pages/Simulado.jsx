@@ -36,7 +36,7 @@ function optionClass({ checked, disabled }, isCorrect) {
   if (checked) {
     return "border-neutral-900 dark:border-neutral-100";
   }
-  return "border-neutral-200 hover:border-blue-400 dark:border-neutral-800";
+  return "border-neutral-200 hover:border-brand-400 dark:border-neutral-800";
 }
 
 function letterClass({ checked, disabled }, isCorrect) {
@@ -209,7 +209,7 @@ export default function Simulado() {
         className="mb-6 block"
       >
         <Progress.Track className="block h-1.5 overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800">
-          <Progress.Indicator className="block h-full rounded-full bg-blue-600 transition-[width] duration-300 ease-out dark:bg-blue-500" />
+          <Progress.Indicator className="block h-full rounded-full bg-brand-600 transition-[width] duration-300 ease-out dark:bg-brand-500" />
         </Progress.Track>
       </Progress.Root>
 

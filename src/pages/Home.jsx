@@ -10,10 +10,10 @@ export default function Home() {
 
       <div className="card-grid">
         {SUBJECTS.map((subject) => (
-          <div key={subject.slug} className="card-group">
+          <div key={subject.slug} className="card-group" data-subject={subject.slug}>
             <Link to={`/${subject.slug}`} className="group block no-underline">
               <span className="card-eyebrow">Matéria</span>
-              <span className="card-title transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
+              <span className="card-title transition-colors group-hover:text-brand-600 dark:group-hover:text-brand-400">
                 {subject.label}
               </span>
               <p className="card-desc">

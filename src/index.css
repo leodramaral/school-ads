@@ -23,6 +23,76 @@
      no escuro — cards e outros elementos "flutuam" sobre esse fundo. */
   --color-canvas: #f7f7f5;
   --color-canvas-dark: #121212;
+
+  /* Acento de marca (índigo): a cor de ação/foco/links do site como um
+     todo — substitui o azul genérico de framework por uma cor com
+     identidade própria. Redefinida por matéria logo abaixo, então todo
+     componente que usa `brand-*` herda automaticamente a cor certa. */
+  --color-brand-50: oklch(97% 0.015 280);
+  --color-brand-100: oklch(93% 0.035 280);
+  --color-brand-200: oklch(86% 0.06 280);
+  --color-brand-300: oklch(76% 0.09 280);
+  --color-brand-400: oklch(65% 0.12 280);
+  --color-brand-500: oklch(55% 0.155 280);
+  --color-brand-600: oklch(47% 0.165 280);
+  --color-brand-700: oklch(39% 0.155 280);
+  --color-brand-800: oklch(32% 0.13 280);
+
+  /* Identidade de Matemática (azul) e de IHC (rosa) — usadas só para
+     redefinir `brand-*` dentro de [data-subject], nunca referenciadas
+     diretamente pelos componentes. */
+  --color-math-50: oklch(97% 0.013 228);
+  --color-math-100: oklch(93% 0.03 228);
+  --color-math-200: oklch(86% 0.051 228);
+  --color-math-300: oklch(76% 0.077 228);
+  --color-math-400: oklch(65% 0.102 228);
+  --color-math-500: oklch(52% 0.112 228);
+  --color-math-600: oklch(44% 0.119 228);
+  --color-math-700: oklch(39% 0.132 228);
+  --color-math-800: oklch(32% 0.111 228);
+
+  --color-ihc-50: oklch(97% 0.014 350);
+  --color-ihc-100: oklch(93% 0.033 350);
+  --color-ihc-200: oklch(86% 0.057 350);
+  --color-ihc-300: oklch(76% 0.086 350);
+  --color-ihc-400: oklch(65% 0.114 350);
+  --color-ihc-500: oklch(55% 0.147 350);
+  --color-ihc-600: oklch(47% 0.157 350);
+  --color-ihc-700: oklch(39% 0.147 350);
+  --color-ihc-800: oklch(32% 0.124 350);
+}
+
+/* ---------- Identidade por matéria ---------- */
+
+@layer base {
+  /* Todo o site usa `brand-*` como cor de ação/foco/identidade. Dentro da
+     árvore de uma matéria (ver data-subject em SubjectLayout, Sidebar e
+     Home), essas mesmas variáveis passam a apontar para a cor daquela
+     matéria — então nenhum componente precisa saber em qual matéria está;
+     ele só usa `brand-*` e herda o tom certo pelo cascade. */
+  [data-subject="matematica"] {
+    --color-brand-50: var(--color-math-50);
+    --color-brand-100: var(--color-math-100);
+    --color-brand-200: var(--color-math-200);
+    --color-brand-300: var(--color-math-300);
+    --color-brand-400: var(--color-math-400);
+    --color-brand-500: var(--color-math-500);
+    --color-brand-600: var(--color-math-600);
+    --color-brand-700: var(--color-math-700);
+    --color-brand-800: var(--color-math-800);
+  }
+
+  [data-subject="ihc"] {
+    --color-brand-50: var(--color-ihc-50);
+    --color-brand-100: var(--color-ihc-100);
+    --color-brand-200: var(--color-ihc-200);
+    --color-brand-300: var(--color-ihc-300);
+    --color-brand-400: var(--color-ihc-400);
+    --color-brand-500: var(--color-ihc-500);
+    --color-brand-600: var(--color-ihc-600);
+    --color-brand-700: var(--color-ihc-700);
+    --color-brand-800: var(--color-ihc-800);
+  }
 }
 
 /* ---------- Base ---------- */
@@ -39,7 +109,7 @@
   /* Substitui o outline padrão do navegador (preto, sem relação com a
      paleta) por um anel na cor de acento, só em navegação por teclado. */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-blue-600 dark:outline-blue-400;
+    @apply outline-2 outline-offset-2 outline-brand-600 dark:outline-brand-400;
   }
 
   /* As transições/animações do site são todas curtas e apenas confirmam uma
@@ -59,8 +129,23 @@
     @apply max-w-full;
   }
 
+  /* Seleção de texto carrega a identidade da matéria (herda `brand-*` do
+     mesmo jeito que qualquer outro componente); a barra de rolagem, por
+     rolar a página inteira, fica na cor de marca. Pequeno reforço da
+     paleta em superfícies que o navegador desenharia em cinza por padrão. */
+  ::selection {
+    @apply bg-brand-200 text-brand-800 dark:bg-brand-800 dark:text-brand-50;
+  }
+
+  html {
+    scrollbar-color: var(--color-brand-300) transparent;
+  }
+  html[data-theme="dark"] {
+    scrollbar-color: var(--color-brand-700) transparent;
+  }
+
   a {
-    @apply text-blue-600 underline-offset-2 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+    @apply text-brand-600 underline-offset-2 hover:text-brand-800 dark:text-brand-400 dark:hover:text-brand-300;
   }
 
   h1,
@@ -133,7 +218,7 @@
   }
 
   .callout--def {
-    @apply border-l-blue-500;
+    @apply border-l-brand-500;
   }
 
   .callout--warn {
@@ -169,7 +254,7 @@
 
   ol.steps > li::before {
     content: counter(step);
-    @apply absolute -left-4 -top-0.5 flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-blue-500 bg-canvas text-[0.85rem] font-semibold text-blue-600 dark:bg-canvas-dark dark:text-blue-400;
+    @apply absolute -left-4 -top-0.5 flex h-7 w-7 items-center justify-center rounded-full border-[1.5px] border-brand-500 bg-canvas text-[0.85rem] font-semibold text-brand-600 dark:bg-canvas-dark dark:text-brand-400;
   }
 
   ol.steps strong {
@@ -205,7 +290,7 @@
   }
 
   .card {
-    @apply block rounded-xl border border-neutral-200 bg-white p-5 no-underline transition-colors hover:border-blue-500 dark:border-neutral-800 dark:bg-neutral-900;
+    @apply block rounded-xl border border-neutral-200 bg-white p-5 no-underline transition-colors hover:border-brand-500 dark:border-neutral-800 dark:bg-neutral-900;
   }
 
   .card-eyebrow {
@@ -227,17 +312,17 @@
   }
 
   .card-shortcut {
-    @apply inline-flex items-center rounded-md border border-neutral-200 px-3 py-1.5 text-[0.78rem] font-semibold text-neutral-700 no-underline transition-colors hover:border-blue-500 hover:text-blue-600 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-blue-500 dark:hover:text-blue-400;
+    @apply inline-flex items-center rounded-md border border-neutral-200 px-3 py-1.5 text-[0.78rem] font-semibold text-neutral-700 no-underline transition-colors hover:border-brand-500 hover:text-brand-600 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-brand-500 dark:hover:text-brand-400;
   }
 
   /* Botões */
 
   .btn {
-    @apply inline-flex cursor-pointer items-center gap-2 rounded-lg border border-neutral-900 bg-neutral-900 px-5 py-2.5 font-sans text-[0.98rem] font-semibold text-white no-underline transition-colors hover:border-blue-600 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-50 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:border-blue-500 dark:hover:bg-blue-500 dark:hover:text-white;
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-lg border border-neutral-900 bg-neutral-900 px-5 py-2.5 font-sans text-[0.98rem] font-semibold text-white no-underline transition-colors hover:border-brand-600 hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-50 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:border-brand-500 dark:hover:bg-brand-500 dark:hover:text-white;
   }
 
   .btn.secondary {
-    @apply border-neutral-200 bg-transparent text-neutral-900 hover:border-blue-600 hover:bg-transparent hover:text-blue-600 dark:border-neutral-800 dark:text-neutral-100 dark:hover:border-blue-500 dark:hover:text-blue-400;
+    @apply border-neutral-200 bg-transparent text-neutral-900 hover:border-brand-600 hover:bg-transparent hover:text-brand-600 dark:border-neutral-800 dark:text-neutral-100 dark:hover:border-brand-500 dark:hover:text-brand-400;
   }
 
   /* Bloco de fórmula (KaTeX) */
@@ -261,7 +346,7 @@
   }
 
   .quiz-topic {
-    @apply text-xs font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400;
+    @apply text-xs font-semibold uppercase tracking-wide text-brand-700 dark:text-brand-300;
   }
 
   .quiz-question {
@@ -325,11 +410,11 @@
     @apply absolute inset-0 flex flex-col items-center justify-center gap-3 overflow-y-auto rounded-2xl border border-neutral-200 bg-white p-6 text-center shadow-sm [backface-visibility:hidden] dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-none;
   }
   .flashcard-face--back {
-    @apply border-blue-100 bg-blue-50 [transform:rotateY(180deg)] dark:border-blue-500/20 dark:bg-blue-500/10;
+    @apply border-brand-100 bg-brand-50 [transform:rotateY(180deg)] dark:border-brand-500/20 dark:bg-brand-500/10;
   }
 
   .flashcard-badge {
-    @apply inline-block flex-none rounded-full bg-blue-100 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-blue-700 dark:bg-blue-500/15 dark:text-blue-300;
+    @apply inline-block flex-none rounded-full bg-brand-100 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-brand-700 dark:bg-brand-500/15 dark:text-brand-300;
   }
 
   .flashcard-text {
@@ -379,7 +464,7 @@
   }
 
   .next-prev a {
-    @apply flex-1 basis-56 rounded-lg border border-neutral-200 px-4 py-3 text-neutral-900 no-underline hover:border-blue-500 dark:border-neutral-800 dark:text-neutral-100;
+    @apply flex-1 basis-56 rounded-lg border border-neutral-200 px-4 py-3 text-neutral-900 no-underline hover:border-brand-500 dark:border-neutral-800 dark:text-neutral-100;
   }
 
   .next-prev small {

@@ -146,7 +146,7 @@ export default function Flashcards() {
 
       <Progress.Root value={step + (revealed ? 1 : 0)} min={0} max={total} className="mb-6 block">
         <Progress.Track className="block h-1.5 overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800">
-          <Progress.Indicator className="block h-full rounded-full bg-blue-600 transition-[width] duration-300 ease-out dark:bg-blue-500" />
+          <Progress.Indicator className="block h-full rounded-full bg-brand-600 transition-[width] duration-300 ease-out dark:bg-brand-500" />
         </Progress.Track>
       </Progress.Root>
 

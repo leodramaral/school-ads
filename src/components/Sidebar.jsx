@@ -24,7 +24,7 @@ function ChevronIcon() {
 const navLinkClass = (isActive) =>
   `block rounded-md px-2 py-1 text-[0.85rem] no-underline ${
     isActive
-      ? "bg-blue-50 font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-300"
+      ? "bg-brand-50 font-semibold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
       : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
   }`;
 
@@ -102,7 +102,7 @@ export default function Sidebar({ open, onNavigate }) {
         onClick={onNavigate}
         className={({ isActive }) =>
           `mb-3 block border-b border-neutral-200 pb-3.5 text-[0.95rem] font-semibold no-underline dark:border-neutral-800 ${
-            isActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
+            isActive ? "text-brand-600 dark:text-brand-400" : "text-neutral-900 hover:text-brand-600 dark:text-neutral-50 dark:hover:text-brand-400"
           }`
         }
       >
@@ -110,14 +110,14 @@ export default function Sidebar({ open, onNavigate }) {
       </NavLink>
 
       {SUBJECTS.map((subject) => (
-        <div className="mb-8 last:mb-0" key={subject.slug}>
+        <div className="mb-8 last:mb-0" key={subject.slug} data-subject={subject.slug}>
           <NavLink
             to={`/${subject.slug}`}
             end
             onClick={onNavigate}
             className={({ isActive }) =>
               `mb-2 block px-0.5 text-[0.72rem] font-semibold uppercase tracking-wide no-underline ${
-                isActive ? "text-blue-600 dark:text-blue-400" : "text-neutral-600 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
+                isActive ? "text-brand-600 dark:text-brand-400" : "text-neutral-600 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
               }`
             }
           >
@@ -144,8 +144,8 @@ export default function Sidebar({ open, onNavigate }) {
                       className={({ isActive: navActive }) =>
                         `-ml-2 block flex-1 rounded-md py-1 pl-2 pr-1 text-[0.92rem] font-semibold leading-snug no-underline ${
                           navActive
-                            ? "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300"
-                            : "text-neutral-900 hover:text-blue-600 dark:text-neutral-50 dark:hover:text-blue-400"
+                            ? "bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-300"
+                            : "text-neutral-900 hover:text-brand-600 dark:text-neutral-50 dark:hover:text-brand-400"
                         }`
                       }
                     >
