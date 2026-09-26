@@ -9,7 +9,7 @@ import { getActiveSubject } from "../data/subjects.js";
 import { shuffle } from "../utils/shuffle.js";
 import { loadState, saveState, defaultCard, isDue, schedule } from "../utils/srs.js";
 
-const QUESTIONS_PER_ROUND = 6;
+const QUESTIONS_PER_ROUND = 8;
 const LETTERS = ["A", "B", "C", "D"];
 
 // Renderiza um texto que pode conter trechos $...$ com LaTeX misturados com texto comum.

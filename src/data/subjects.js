@@ -70,6 +70,92 @@ export const SUBJECTS = [
       pdfLabel: "Baixar apostila original em PDF",
     },
   },
+  {
+    slug: "ihc",
+    label: "Interação Humano-Computador",
+    shortLabel: "IHC",
+    chapters: [
+      {
+        slug: "introducao",
+        label: "Introdução à IHC",
+        eyebrow: "Aula 1",
+        description:
+          "Definição e escopo da IHC, a distinção entre interface e interação, e o paradigma do Design Centrado no Usuário.",
+        items: [
+          { id: "o-que-e-ihc", label: "O que é IHC" },
+          { id: "interface-vs-interacao", label: "Interface vs. interação" },
+          { id: "design-centrado-usuario", label: "Design Centrado no Usuário (DCU)" },
+        ],
+      },
+      {
+        slug: "usabilidade",
+        label: "Usabilidade e Acessibilidade",
+        eyebrow: "Aula 2",
+        description:
+          "A norma ISO 9241-11, os três pilares da usabilidade, métricas complementares e acessibilidade.",
+        items: [
+          { id: "norma-iso", label: "A norma ISO 9241-11" },
+          { id: "tres-pilares", label: "Os três pilares da usabilidade" },
+          { id: "metricas-complementares", label: "Métricas complementares" },
+          { id: "acessibilidade", label: "Acessibilidade" },
+        ],
+      },
+      {
+        slug: "heuristicas",
+        label: "As 10 Heurísticas de Nielsen",
+        eyebrow: "Aula 3",
+        description: "As dez heurísticas de usabilidade de Jakob Nielsen, com exemplos práticos.",
+        items: [{ id: "heuristicas-nielsen", label: "As 10 heurísticas" }],
+      },
+      {
+        slug: "fatores-humanos",
+        label: "Fatores Humanos e Psicologia Cognitiva",
+        eyebrow: "Aula 4",
+        description:
+          "O Processador Humano de Informações (MHP), a Lei de Miller, carga cognitiva e exemplos reais.",
+        items: [
+          { id: "mhp", label: "Processador Humano de Informações (MHP)" },
+          { id: "lei-de-miller", label: "Lei de Miller e carga cognitiva" },
+          { id: "reconhecimento-evocacao", label: "Reconhecimento vs. evocação" },
+          { id: "exemplos-reais", label: "Exemplos reais sob a ótica psicológica" },
+        ],
+      },
+      {
+        slug: "ergonomia",
+        label: "Ergonomia e Critérios de Scapin & Bastien",
+        eyebrow: "Aula 5",
+        description:
+          "Os três pilares da ergonomia, os critérios de Scapin e Bastien, carga de trabalho mental e tratamento de erros.",
+        items: [
+          { id: "pilares-ergonomia", label: "Os três pilares da ergonomia" },
+          { id: "criterios-scapin-bastien", label: "Critérios de Scapin e Bastien" },
+          { id: "carga-trabalho-mental", label: "Carga de trabalho mental" },
+          { id: "tratamento-erros", label: "Tratamento de erros" },
+          { id: "consistencia-padronizacao", label: "Consistência e padronização" },
+        ],
+      },
+    ],
+    exam: {
+      slug: "npc1",
+      label: "Prova NPC1",
+      eyebrow: "Foco na prova",
+      description: "Revisão dos conceitos das 5 aulas e o simulado de treino.",
+      items: [
+        { id: "como-estudar", label: "Como usar esta revisão" },
+        { id: "checklist", label: "Checklist antes da prova" },
+      ],
+      simulado: {
+        slug: "simulado",
+        label: "Simulado",
+        title: "IHC: Conceitos e Fundamentos",
+      },
+    },
+    credit: {
+      sourceNote: "Baseado no Guia Integral de Estudos de IHC (resumo de aula).",
+      pdfHref: "./resumo-ihc.pdf",
+      pdfLabel: "Baixar resumo original em PDF",
+    },
+  },
 ];
 
 export function chapterPath(subject, chapter) {

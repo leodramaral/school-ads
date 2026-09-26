@@ -171,7 +171,7 @@ export default function Pratica() {
       </div>
 
       <h2 id="checklist">Checklist antes da prova</h2>
-      <ul>
+      <ul className="checklist">
         <li>
           Sei calcular determinante de ordem 2 (produto das diagonais) e de ordem 3 (Sarrus{" "}
           <strong>ou</strong> Laplace).

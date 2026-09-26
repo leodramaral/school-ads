@@ -10,6 +10,12 @@ import SubjectHome from "./pages/SubjectHome.jsx";
 import Matrizes from "./pages/matematica/Matrizes.jsx";
 import Determinantes from "./pages/matematica/Determinantes.jsx";
 import Pratica from "./pages/matematica/Pratica.jsx";
+import IntroducaoIhc from "./pages/ihc/Introducao.jsx";
+import UsabilidadeIhc from "./pages/ihc/Usabilidade.jsx";
+import HeuristicasIhc from "./pages/ihc/Heuristicas.jsx";
+import FatoresHumanosIhc from "./pages/ihc/FatoresHumanos.jsx";
+import ErgonomiaIhc from "./pages/ihc/Ergonomia.jsx";
+import ProvaIhc from "./pages/ihc/Prova.jsx";
 import Simulado from "./pages/Simulado.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 
@@ -36,6 +42,18 @@ export default function App() {
               <Route path="determinantes" element={<Determinantes />} />
               <Route path="npc1" element={<ExamLayout />}>
                 <Route index element={<Pratica />} />
+                <Route path="simulado" element={<Simulado />} />
+              </Route>
+            </Route>
+            <Route path="/ihc" element={<SubjectLayout />}>
+              <Route index element={<SubjectHome />} />
+              <Route path="introducao" element={<IntroducaoIhc />} />
+              <Route path="usabilidade" element={<UsabilidadeIhc />} />
+              <Route path="heuristicas" element={<HeuristicasIhc />} />
+              <Route path="fatores-humanos" element={<FatoresHumanosIhc />} />
+              <Route path="ergonomia" element={<ErgonomiaIhc />} />
+              <Route path="npc1" element={<ExamLayout />}>
+                <Route index element={<ProvaIhc />} />
                 <Route path="simulado" element={<Simulado />} />
               </Route>
             </Route>
