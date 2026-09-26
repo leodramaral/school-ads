@@ -4,7 +4,8 @@ import { Progress } from "@base-ui/react/progress";
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import { QUIZ_BANK } from "../data/quizBank.js";
-import { shuffle, sample } from "../utils/shuffle.js";
+import { shuffle } from "../utils/shuffle.js";
+import { loadState, saveState, defaultCard, isDue, schedule } from "../utils/srs.js";
 
 const QUESTIONS_PER_ROUND = 6;
 const LETTERS = ["A", "B", "C", "D"];
@@ -25,11 +26,32 @@ function RichText({ text }) {
   );
 }
 
-function buildRound() {
-  const chosen = sample(QUIZ_BANK, QUESTIONS_PER_ROUND);
-  return chosen.map((q) => {
+// Monta o round priorizando, nessa ordem: revisões atrasadas (mais atrasada
+// primeiro), depois questões nunca vistas, depois revisões ainda não devidas
+// (a que vence mais cedo). Questões nunca vistas ficam em um grupo à parte —
+// misturá-las com as revisões pela mesma "dueDate" faria elas sempre vencerem
+// as revisões de verdade, já que "nunca vista" não tem um timestamp real.
+function buildRound(srsState) {
+  const now = Date.now();
+  const withCard = QUIZ_BANK.map((q) => ({ q, card: srsState[q.id] ?? defaultCard() }));
+
+  const dueReview = withCard.filter(({ card }) => card.lastReviewed && isDue(card, now));
+  const newCards = withCard.filter(({ card }) => !card.lastReviewed);
+  const upcoming = withCard.filter(({ card }) => card.lastReviewed && !isDue(card, now));
+  dueReview.sort((a, b) => a.card.dueDate - b.card.dueDate);
+  upcoming.sort((a, b) => a.card.dueDate - b.card.dueDate);
+
+  let picked = dueReview.slice(0, QUESTIONS_PER_ROUND);
+  if (picked.length < QUESTIONS_PER_ROUND) {
+    picked = picked.concat(shuffle(newCards).slice(0, QUESTIONS_PER_ROUND - picked.length));
+  }
+  if (picked.length < QUESTIONS_PER_ROUND) {
+    picked = picked.concat(upcoming.slice(0, QUESTIONS_PER_ROUND - picked.length));
+  }
+
+  return shuffle(picked).map(({ q, card }) => {
     const opcoes = shuffle(q.opcoes.map((o, i) => ({ ...o, _origIndex: i })));
-    return { ...q, opcoesEmbaralhadas: opcoes };
+    return { ...q, opcoesEmbaralhadas: opcoes, srsCard: card };
   });
 }
 
@@ -62,7 +84,8 @@ function letterClass({ checked, disabled }, isCorrect) {
 }
 
 export default function Quiz() {
-  const [round, setRound] = useState(() => buildRound());
+  const [srsState, setSrsState] = useState(() => loadState());
+  const [round, setRound] = useState(() => buildRound(srsState));
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answered, setAnswered] = useState(false);
@@ -76,14 +99,23 @@ export default function Quiz() {
   function handleConfirm() {
     if (selected === null) return;
     const opt = question.opcoesEmbaralhadas[selected];
+    const correct = !!opt.correta;
     setAnswered(true);
     setLog((prev) => [
       ...prev,
       {
+        id: question.id,
         pergunta: question.enunciado,
-        correct: !!opt.correta,
+        correct,
       },
     ]);
+
+    const updatedCard = schedule(question.srsCard, correct, Date.now());
+    setSrsState((prev) => {
+      const next = { ...prev, [question.id]: updatedCard };
+      saveState(next);
+      return next;
+    });
   }
 
   function handleNext() {
@@ -97,7 +129,7 @@ export default function Quiz() {
   }
 
   function handleRestart() {
-    setRound(buildRound());
+    setRound(buildRound(srsState));
     setStep(0);
     setSelected(null);
     setAnswered(false);
@@ -149,15 +181,15 @@ export default function Quiz() {
       <p className="eyebrow">Quiz interativo</p>
       <h1>Matrizes e Determinantes</h1>
       <p className="lede mt-0">
-        {QUESTIONS_PER_ROUND} questões de múltipla escolha, sorteadas de um banco maior. A ordem das
-        alternativas — e as próprias questões — mudam a cada tentativa.
+        {QUESTIONS_PER_ROUND} questões de múltipla escolha, priorizadas por repetição espaçada: o que
+        você errou ou não revisa há mais tempo aparece primeiro. A ordem das alternativas — e as
+        próprias questões — mudam a cada tentativa.
       </p>
 
       <div className="quiz-meta">
         <span>
           Questão {step + 1} de {total}
         </span>
-        <span>{question.topico}</span>
       </div>
 
       <Progress.Root
@@ -172,7 +204,12 @@ export default function Quiz() {
       </Progress.Root>
 
       <div className="quiz-card">
-        <p className="quiz-topic">{question.topico}</p>
+        <p className="quiz-topic">
+          {question.topico}
+          <span className="ml-1.5 font-normal normal-case text-neutral-400 dark:text-neutral-500">
+            · {question.srsCard.lastReviewed ? "revisão" : "nova"}
+          </span>
+        </p>
         <p className="quiz-question">
           <RichText text={question.enunciado} />
         </p>
